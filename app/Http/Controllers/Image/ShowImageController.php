@@ -8,6 +8,8 @@ class ShowImageController
 {
   public function __invoke(Image $image)
   {
+
+    // $image->load('imageable');
     return response()->json($image);
   }
 }

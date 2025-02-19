@@ -14,5 +14,5 @@ it('retrieves a specific image', function () {
   $response = get("/api/images/{$filePath}");
 
   $response->assertOk()
-    ->assertHeader('Content-Type', 'image/jpeg');
+    ->assertHeader('Content-Type', 'image/jpg');
 });
