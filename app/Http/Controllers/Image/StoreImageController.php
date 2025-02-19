@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Image;
 
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StoreImageController
 {
