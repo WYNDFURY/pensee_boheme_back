@@ -2,6 +2,8 @@
 
 use function Pest\Laravel\delete;
 
+use App\Models\Category;
+use App\Models\Image;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -9,12 +11,22 @@ it('deletes an image', function () {
   Storage::fake('public');
 
   $file = UploadedFile::fake()->image('image.jpg');
-  $filePath = $file->store('images', 'public');
+  $path = $file->store('images', 'public');
 
-  $response = delete("/api/images/{$filePath}");
+  $category = Category::factory()->create();
+
+  $image = Image::create([
+    'path' => $path,
+    'alt_text' => 'An image',
+    'imageable_type' => Category::class,
+    'imageable_id' => $category->id,
+  ]);
+
+  $response = delete("/api/images/{$image->id}");
 
   $response->assertOk();
 
   // Ensure the image is deleted
-  Storage::disk('public')->assertMissing($filePath);
+  Storage::disk('public')->assertMissing($path);
+  $this->assertSoftDeleted('images', ['id' => $image->id]);
 });

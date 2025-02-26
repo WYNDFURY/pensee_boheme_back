@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Image;
 
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class DestroyImageController
 {

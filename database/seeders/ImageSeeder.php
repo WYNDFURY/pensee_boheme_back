@@ -20,7 +20,9 @@ class ImageSeeder extends Seeder
         foreach ($imageFiles as $file) {
             DB::table('images')->insert([
                 'path' => 'images/' . $file->getFilename(),
-                'alt_text' => null, // You can set a default alt text or leave it null
+                'alt_text' => null, 
+                'imageable_type' => get_class($category),
+                'imageable_id' => $category->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

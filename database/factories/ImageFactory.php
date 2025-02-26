@@ -27,6 +27,9 @@ class ImageFactory extends Factory
         return [
             'path' => $this->faker->imageUrl(),
             'alt_text' => $this->faker->sentence,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'deleted_at' => null,
         ];
     }
 }

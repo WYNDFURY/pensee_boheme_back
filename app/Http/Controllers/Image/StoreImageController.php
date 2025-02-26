@@ -27,13 +27,7 @@ class StoreImageController
         'imageable_id' => $validated['imageable_id'],
       ]);
 
-      return response()->json([
-        'id' => $image->id,
-        'path' => Storage::url($path),
-        'alt_text' => $image->alt_text,
-        'imageable_type' => $image->imageable_type,
-        'imageable_id' => $image->imageable_id,
-      ], 201);
+      return response()->json($image, 201);
     }
 
     return response()->json(['error' => 'Image upload failed'], 400);
