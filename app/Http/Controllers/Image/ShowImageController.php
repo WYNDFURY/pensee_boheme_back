@@ -9,7 +9,8 @@ class ShowImageController
   public function __invoke(Image $image)
   {
 
-    $image->load('imageable');
+    $image->load(['category', 'product']);
+
     return response()->json($image);
   }
 }

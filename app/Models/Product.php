@@ -20,16 +20,14 @@ class Product extends Model
 
     protected $dates = ['deleted_at'];
 
-    /**
-     * Get the category associated with the product.
-     */
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
+    // New direct relationship
     public function images()
     {
-        return $this->morphMany(\App\Models\Image::class, 'imageable');
+        return $this->hasMany(Image::class);
     }
 }

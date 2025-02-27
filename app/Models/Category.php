@@ -16,8 +16,9 @@ class Category extends Model
 
     protected $dates = ['deleted_at'];
 
+    // New direct relationship
     public function images()
     {
-        return $this->morphMany(\App\Models\Image::class, 'imageable');
+        return $this->hasMany(Image::class);
     }
 }

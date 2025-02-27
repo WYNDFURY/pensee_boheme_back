@@ -18,8 +18,7 @@ it('retrieves a specific image', function () {
   $image = Image::create([
     'path' => $filePath,
     'alt_text' => 'An image',
-    'imageable_type' => Category::class,
-    'imageable_id' => $category->id,
+    'category_id' => $category->id,
   ]);
 
   $response = get("/api/images/{$image->id}");
@@ -28,11 +27,10 @@ it('retrieves a specific image', function () {
     ->assertJsonPath('path', $filePath)
     ->assertJsonPath('url', Storage::disk('public')->url($filePath))
     ->assertJsonPath('alt_text', 'An image')
-    ->assertJsonPath('imageable_type', Category::class)
-    ->assertJsonPath('imageable_id', $category->id);
+    ->assertJsonPath('category_id', $category->id);
 
   $response->assertJson([
-    'imageable' => [
+    'category' => [
       'id' => $category->id,
     ]
   ]);

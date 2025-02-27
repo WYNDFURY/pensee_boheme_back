@@ -13,8 +13,9 @@ class StoreImageController
     $validated = $request->validate([
       'image' => 'required|image|max:2048',
       'alt_text' => 'nullable|string|max:255',
-      'imageable_type' => 'required|string|max:255',
-      'imageable_id' => 'required|integer',
+      'category_id' => 'nullable|integer|exists:categories,id',
+      'product_id' => 'nullable|integer|exists:products,id',
+      'gallery_id' => 'nullable|integer|exists:galleries,id',
     ]);
 
     if ($request->hasFile('image')) {
@@ -23,8 +24,9 @@ class StoreImageController
       $image = Image::create([
         'path' => $path,
         'alt_text' => $validated['alt_text'] ?? null,
-        'imageable_type' => $validated['imageable_type'],
-        'imageable_id' => $validated['imageable_id'],
+        'category_id' => $validated['category_id'] ?? null,
+        'product_id' => $validated['product_id'] ?? null,
+        'gallery_id' => $validated['gallery_id'] ?? null,
       ]);
 
       return response()->json($image, 201);

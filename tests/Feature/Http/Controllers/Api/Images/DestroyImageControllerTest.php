@@ -18,8 +18,7 @@ it('deletes an image', function () {
   $image = Image::create([
     'path' => $path,
     'alt_text' => 'An image',
-    'imageable_type' => Category::class,
-    'imageable_id' => $category->id,
+    'category_id' => $category->id,
   ]);
 
   $response = delete("/api/images/{$image->id}");

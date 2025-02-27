@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,6 +29,10 @@ class ImageFactory extends Factory
         return [
             'path' => $this->faker->imageUrl(),
             'alt_text' => $this->faker->sentence,
+            'category_id' => Category::factory(),
+            'product_id' => Product::factory(),
+            'gallery_id' => null,
+            'order' => 0,
             'created_at' => now(),
             'updated_at' => now(),
             'deleted_at' => null,

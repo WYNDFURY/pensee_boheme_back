@@ -15,16 +15,14 @@ it('uploads a new image with valid data', function () {
   $data = [
     'image' => $file,
     'alt_text' => 'An image',
-    'imageable_type' => Category::class,
-    'imageable_id' => $category->id,
+    'category_id' => $category->id,
   ];
 
   $response = post('/api/images', $data);
 
   $response->assertCreated()
     ->assertJsonPath('alt_text', 'An image')
-    ->assertJsonPath('imageable_type', Category::class)
-    ->assertJsonPath('imageable_id', $category->id);
+    ->assertJsonPath('category_id', $category->id);
 
   $path = $response->json('path');
 
