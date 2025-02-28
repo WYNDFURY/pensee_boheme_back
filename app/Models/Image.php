@@ -14,15 +14,29 @@ class Image extends Model
     protected $fillable = [
         'path',
         'alt_text',
+        'filename',
         'category_id',
+        'subsection_id',
+        'type',
+        'position',
+        'is_featured',
+        'is_header',
+        'is_svg',
+        'is_gallery_cover',
         'product_id',
         'gallery_id',
-        'order',
     ];
 
     protected $dates = ['deleted_at'];
 
     protected $appends = ['url'];
+
+    protected $casts = [
+        'is_header' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_svg' => 'boolean',
+        'is_gallery_cover' => 'boolean',
+    ];
 
     // New direct relationships
     public function category()
