@@ -2,27 +2,23 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-use App\Models\Product;
+use App\Models\Gallery;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
-class ProductFactory extends Factory
+class GalleryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Product::class;
+    protected $model = Gallery::class;
 
     /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function definition(): array
     {
@@ -31,10 +27,9 @@ class ProductFactory extends Factory
         return [
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
-            'description' => $this->faker->sentence(),
-            'price' => $this->faker->randomFloat(2, 1, 1000),
-            'category_id' => Category::factory(),
-            'is_active' => $this->faker->boolean(),
+            'description' => $this->faker->paragraph(),
+            'is_published' => $this->faker->boolean(80), // 80% chance to be published
+            'order' => $this->faker->numberBetween(1, 100),
             'created_at' => now(),
             'updated_at' => now(),
             'deleted_at' => null,

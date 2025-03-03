@@ -8,7 +8,7 @@ class IndexProductController
 {
     public function __invoke()
     {
-        $products = Product::with('images')->get();
+        $products = Product::all();
 
         return response()->json($products);
     }
