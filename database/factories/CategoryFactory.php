@@ -7,7 +7,6 @@ use App\Models\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
@@ -22,8 +21,6 @@ class CategoryFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
     public function definition(): array
     {
@@ -31,6 +28,7 @@ class CategoryFactory extends Factory
 
         return [
             'name' => ucfirst($name),
+            'slug' => Str::slug($name),
             'description' => $this->faker->paragraph(),
             'order' => $this->faker->numberBetween(1, 100),
             'page_id' => Page::factory(),
