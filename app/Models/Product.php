@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Product extends Model implements HasMedia
 {
@@ -37,9 +38,11 @@ class Product extends Model implements HasMedia
     }
 
     // method to register a media collection for the product
-    public function registerMediaCollections(): void
+    public function registerMediaCollections(?Media $media = null): void
     {
-        $this->addMediaCollection('product_images')
-            ->singleFile();
+        $this->addMediaConversion('webp')
+            ->format('webp')
+            ->quality(90)
+            ->nonQueued();
     }
 }
