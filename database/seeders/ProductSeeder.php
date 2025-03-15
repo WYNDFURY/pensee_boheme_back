@@ -63,7 +63,9 @@ class ProductSeeder extends Seeder
                 ['name' => 'Contenant blanc', 'price' => 2.00],
                 ['name' => 'Dames-jeanne', 'price' => 6.00],
                 ['name' => 'Bouteilles en grès', 'price' => 2.00],
-                ['name' => 'Vase transparent', 'price' => 1.00],
+                ['name' => 'Vase divers', 'price' => 1.00],
+                ['name' => 'Vase centre de table', 'price' => 1.00],
+                ['name' => 'Vase à suspendre', 'price' => 1.00],
             ],
             'decorations-personnalisees' => [
                 ['name' => 'Panneau de bienvenue', 'price' => 35.00],
@@ -72,6 +74,7 @@ class ProductSeeder extends Seeder
                 ['name' => 'Présentoir de bienvenue', 'price' => 40.00],
             ],
             'elements-decoratifs' => [
+                ['name' => 'Support métallique', 'price' => 10.00],
                 ['name' => 'Caisses en bois', 'price' => 4.00],
                 ['name' => 'Chevalet', 'price' => 10.00],
                 ['name' => 'Échelle de peintre', 'price' => 20.00],

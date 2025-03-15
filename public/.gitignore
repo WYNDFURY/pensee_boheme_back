@@ -1,9 +1,0 @@
-# Ignore everything in this directory
-*
-
-# Except for .gitignore itself
-!.gitignore
-
-# Ignore media folder and its contents
-/media/
-/media/**
