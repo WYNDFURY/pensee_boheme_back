@@ -34,56 +34,56 @@ class ProductSeeder extends Seeder
             'enfants' => [
                 ['name' => 'Bandeau', 'price' => 25.00],
                 ['name' => 'Barrette', 'price' => 10.00],
-                ['name' => 'Couronne Enfant', 'price' => 45.00],
-                ['name' => 'Serre-Tête Enfant', 'price' => 30.00],
+                ['name' => 'Couronne', 'price' => 45.00],
+                ['name' => 'Serre-Tête', 'price' => 30.00],
             ],
             'details-personnalises' => [
                 ['name' => 'Couronne murale', 'price' => 35.00, 'description' => 'Couronne murale - à partir de 35,00€ (dimension sur demande)'],
                 ['name' => 'Porte Alliance', 'price' => 30.00],
-                ['name' => 'Couronne XL Prénoms + date', 'price' => 80.00],
+                ['name' => 'Couronne XL', 'price' => 80.00, 'description' => 'Couronne forale avec prénom et/ou date'],
                 ['name' => 'Initiales fleuries', 'price' => 35.00],
-                ['name' => 'Écriture et Signalétique', 'price' => 0.00, 'description' => 'Écriture et Signalétique - tarif sur demande'],
             ],
             'cadeaux-invites' => [
                 ['name' => 'Cartes fleuries', 'price' => 5.00],
                 ['name' => 'Bougies artisanales', 'price' => 8.00],
                 ['name' => 'Mini bouquets', 'price' => 6.50],
-                ['name' => 'Mini composition', 'price' => 7.00],
+                ['name' => 'Fioles fleuries', 'price' => 5.00],
                 ['name' => 'Sachets de graines', 'price' => 1.90],
             ],
             'arches-de-ceremonie' => [
+                ['name' => 'Arche rectangulaire en bois', 'price' => 70.00, 'description' => 'Arche rectangulaire en bois (L180cm x H230cm)'],
                 ['name' => 'Arche en macramé', 'price' => 80.00, 'description' => 'Arche en macramé (L180cm x H230cm)'],
                 ['name' => 'Arche triangulaire', 'price' => 50.00, 'description' => 'Arche triangulaire (L130cm x H225cm)'],
                 ['name' => 'Arche rectangulaire métallique', 'price' => 40.00, 'description' => 'Arche rectangulaire métallique (L120cm x H180cm)'],
-                ['name' => 'Arche rectangulaire en bois naturel', 'price' => 80.00, 'description' => 'Arche rectangulaire en bois naturel (L160cm x H220cm)'],
+                ['name' => 'Backdrop bois', 'price' => 60.00, 'description' => 'Backdrop en bois pour arche de cérémonie'],
+                ['name' => 'Backdrop 3 pans', 'price' => 50.00, 'description' => 'Backdrop 3 pans pour arche de cérémonie'],
             ],
             'vases-et-contenants' => [
                 ['name' => 'Soliflore', 'price' => 1.00],
                 ['name' => 'Contenant sur pied', 'price' => 3.00],
-                ['name' => 'Contenant blanc', 'price' => 2.00],
-                ['name' => 'Dames-jeanne', 'price' => 6.00],
+                ['name' => 'Dames Jeanne', 'price' => 6.00],
                 ['name' => 'Bouteilles en grès', 'price' => 2.00],
-                ['name' => 'Vase divers', 'price' => 1.00],
-                ['name' => 'Vase centre de table', 'price' => 1.00],
                 ['name' => 'Vase à suspendre', 'price' => 1.00],
+                ['name' => 'Vase centre de table', 'price' => 1.00],
+                ['name' => 'Vases divers', 'has_price' => false, 'description' => 'Vases divers 2 à 5 €'],
             ],
             'decorations-personnalisees' => [
                 ['name' => 'Panneau de bienvenue', 'price' => 35.00],
-                ['name' => 'Panneau plan de table', 'price' => 80.00],
-                ['name' => 'Backdrop 3 pans', 'price' => 60.00],
+                ['name' => 'Panneau plan de table', 'price' => 30.00, 'description' => 'Panneau plan de table: +1€ par prénom'],
                 ['name' => 'Présentoir de bienvenue', 'price' => 40.00],
+                ['name' => 'Signalétique', 'has_price' => false, 'description' => 'Signalétique tarif sur demande'],
             ],
+
             'elements-decoratifs' => [
-                ['name' => 'Support métallique', 'price' => 10.00],
                 ['name' => 'Caisses en bois', 'price' => 4.00],
+                ['name' => 'Fauteuil rotin', 'price' => 25.00],
+                ['name' => 'Banquette rotin', 'price' => 50.00],
                 ['name' => 'Chevalet', 'price' => 10.00],
                 ['name' => 'Échelle de peintre', 'price' => 20.00],
                 ['name' => 'Valises vintages', 'price' => 6.00],
-                ['name' => 'Tapis bohème', 'price' => 4.00],
-                ['name' => 'Rondins de bois', 'price' => 1.00],
                 ['name' => 'Set en cordage', 'price' => 1.00],
                 ['name' => 'Bureau d\'écolier', 'price' => 30.00],
-                ['name' => 'Présentoir métallique doré', 'price' => 20.00],
+                ['name' => 'Présentoir métallique doré', 'price' => 10.00],
                 ['name' => 'Guirlande lumineuse LED (100m)', 'price' => 15.00],
                 ['name' => 'Néon "Love is in the air"', 'price' => 10.00],
             ],
@@ -108,28 +108,37 @@ class ProductSeeder extends Seeder
             }
 
             foreach ($products as $productData) {
-                $slug = Str::slug($productData['name']);
-                $description = isset($productData['description'])
-                  ? $productData['description']
-                  : "Description pour {$productData['name']}";
+                $name = $productData['name'];
+                $slug = Str::slug($name.'-'.$category->name);
+                $description = $productData['description'] ?? "Description pour {$name}";
 
                 // Check if product already exists
-                $existingProduct = Product::where('slug', $slug)
-                    ->where('category_id', $category->id)
-                    ->first();
+                if (Product::where('slug', $slug)->where('category_id', $category->id)->exists()) {
+                    $this->command->warn("Product '{$name}' already exists in category '{$category->name}'. Skipping.");
 
-                if ($existingProduct) {
-                    $this->command->warn("Product '{$productData['name']}' already exists in category '{$category->name}'. Skipping creation.");
-                } else {
-                    Product::create([
-                        'name' => $productData['name'],
-                        'slug' => $slug,
-                        'description' => $description,
-                        'price' => $productData['price'],
-                        'category_id' => $category->id,
-                        'is_active' => true,
-                    ]);
+                    continue;
                 }
+
+                $hasPrice = true;
+                $price = null;
+
+                if (isset($productData['has_price']) && $productData['has_price'] === false) {
+                    $hasPrice = false;
+                } elseif (isset($productData['price'])) {
+                    $price = $productData['price'];
+                } else {
+                    $hasPrice = false;
+                }
+
+                Product::create([
+                    'name' => $name,
+                    'slug' => $slug,
+                    'description' => $description,
+                    'price' => $price,
+                    'has_price' => $hasPrice,
+                    'category_id' => $category->id,
+                    'is_active' => true,
+                ]);
 
                 $totalProducts++;
             }

@@ -14,7 +14,9 @@ class StoreProductController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:products',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
+            'has_price' => 'boolean',
+            'is_active' => 'boolean',
+            'price' => 'nullable|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
         ]);
 

@@ -15,14 +15,14 @@ class CategorySeeder extends Seeder
     {
         // Define all pages and their categories
         $pagesWithCategories = [
-            'ateliers_creatifs' => [
+            'ateliers-creatifs' => [
                 [
                     'name' => 'Ateliers Créatifs',
                     'slug' => 'ateliers-creatifs',
                     'description' => 'Ateliers créatifs pour tous les âges',
                 ],
             ],
-            'accessoires_fleurs_sechees' => [
+            'accessoires-fleurs-sechees' => [
                 [
                     'name' => 'Femmes',
                     'slug' => 'femmes',
@@ -39,7 +39,7 @@ class CategorySeeder extends Seeder
                     'description' => 'Accessoires pour enfants',
                 ],
             ],
-            'cadeaux_invites' => [
+            'cadeaux-invites' => [
                 [
                     'name' => 'Détails Personnalisés',
                     'slug' => 'details-personnalises',

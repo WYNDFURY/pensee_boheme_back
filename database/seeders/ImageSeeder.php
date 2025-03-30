@@ -227,24 +227,26 @@ class ImageSeeder extends Seeder
                 continue;
             }
 
+            $newImageName = Str::slug($productName);
             $existingMedia = $product->getMedia('product_images');
-            $newImageName = $this->generateImageName($productName, $filename);
-            $mediaExists = $existingMedia->contains(function ($item) use ($newImageName) {
+            // Generate a unique name for this image by appending a counter if similar names exist
+            $counter = 1;
+            $baseImageName = $newImageName;
+
+            while ($existingMedia->contains(function ($item) use ($newImageName) {
                 return $item->name === $newImageName;
-            });
-
-            if ($mediaExists) {
-                $this->command->info("Image '{$newImageName}' already exists for product '{$productName}'. Skipping.");
-                $skippedImages++;
-
-                continue;
+            })) {
+                $newImageName = $baseImageName.'-'.$counter;
+                $counter++;
             }
+
+            // At this point, $newImageName is guaranteed to be unique
+            $this->command->info("Using image name '{$newImageName}' for product '{$productName}'");
 
             try {
                 // Add the media to the product
                 $product->addMedia($file->getPathname())
-                    ->usingName($this->generateImageName($productName, $filename))
-                    ->preservingOriginal()
+                    ->usingName($newImageName)
                     ->toMediaCollection('product_images');
 
                 $this->command->info("Added image {$filename} to product '{$productName}'");
@@ -258,25 +260,5 @@ class ImageSeeder extends Seeder
         $this->command->info("{$category->name}: {$addedImages} images added, {$skippedImages} skipped.");
 
         return [$addedImages, $skippedImages];
-    }
-
-    /**
-     * Generate a clean name for the image based on product name and filename
-     */
-    private function generateImageName($productName, $filename)
-    {
-        // Extract number from filename if it exists (e.g., barrettes_1 → 1)
-        $number = null;
-        if (preg_match('/_(\d+)$/', $filename, $matches)) {
-            $number = $matches[1];
-        }
-
-        $name = Str::slug($productName);
-
-        if ($number) {
-            $name .= "-{$number}";
-        }
-
-        return $name;
     }
 }
