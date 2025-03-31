@@ -10,12 +10,15 @@ use Illuminate\Support\Str;
 
 class ImageSeeder extends Seeder
 {
+    /*
+     * List of products by category
+     */
     protected $categoryMappings = [
         'enfants' => [
             'bandeau' => 'Bandeau',
             'barrettes' => 'Barrette',
-            'couronne' => 'Couronne Enfant',
-            'serre-tete' => 'Serre-Tête Enfant',
+            'couronne' => 'Couronne',
+            'serre-tete' => 'Serre-Tête',
         ],
         'femmes' => [
             'boucles-doreilles_' => 'Boucles d\'oreille',
@@ -36,54 +39,56 @@ class ImageSeeder extends Seeder
             'bougie' => 'Bougies artisanales',
             'cartes' => 'Cartes fleuries',
             'mini-bouquet' => 'Mini bouquets',
-            'mini-composition' => 'Mini composition',
+            'fiole' => 'Fioles fleuries',
             'sachets-graines' => 'Sachets de graines',
         ],
         'details-personnalises' => [
             'couronne-murale' => 'Couronne murale',
-            'couronne-xl' => 'Couronne XL Prénoms + date',
-            'ecriture' => 'Écriture et Signalétique',
+            'couronne-xl' => 'Couronne XL',
             'initiales' => 'Initiales fleuries',
             'porte-alliance' => 'Porte Alliance',
         ],
         'arches-de-ceremonie' => [
-            'arche-bois' => 'Arche rectangulaire en bois naturel',
+            'arche-bois' => 'Arche rectangulaire en bois',
             'arche-macrame' => 'Arche en macramé',
             'arche-metallique' => 'Arche rectangulaire métallique',
             'arche-triangulaire' => 'Arche triangulaire',
+            'backdrop-bois' => 'Backdrop bois',
+            'backdrop-3-pans' => 'Backdrop 3 pans',
         ],
         'decorations-personnalisees' => [
-            'backdrop' => 'Backdrop 3 pans',
             'panneau-bienvenue' => 'Panneau de bienvenue',
             'panneau-plan' => 'Panneau plan de table',
             'presentoir' => 'Présentoir de bienvenue',
+            'signaletique' => 'Signalétique',
         ],
         'elements-decoratifs' => [
             'caisse' => 'Caisses en bois',
+            'fauteuil-rotin' => 'Fauteuil rotin',
+            'banquette-rotin' => 'Banquette rotin',
             'chevalet' => 'Chevalet',
             'echelle' => 'Échelle de peintre',
+            'valise' => 'Valises vintages',
+            'set-cordage' => 'Set en cordage',
+            'bureau' => 'Bureau d\'écolier',
+            'presentoir-metal' => 'Présentoir métallique doré',
             'guirlande' => 'Guirlande lumineuse LED (100m)',
             'neon' => 'Néon "Love is in the air"',
-            'presentoir-metal' => 'Présentoir métallique doré',
-            'rondin' => 'Rondins de bois',
-            'set-cordage' => 'Set en cordage',
-            'tapis' => 'Tapis bohème',
-            'valise' => 'Valises vintages',
-            'bureau' => 'Bureau d\'écolier',
         ],
         'vases-et-contenants' => [
-            'bouteille' => 'Bouteilles en grès',
-            'contenant-blanc' => 'Contenant blanc',
-            'contenant-pied' => 'Contenant sur pied',
-            'dame-jeanne' => 'Dames-jeanne',
             'soliflore' => 'Soliflore',
-            'vase' => 'Vase transparent',
+            'contenant-pied' => 'Contenant sur pied',
+            'dames-jeanne' => 'Dames Jeanne',
+            'bouteille' => 'Bouteilles en grès',
+            'vase-suspendre' => 'Vase à suspendre',
+            'vase-centre' => 'Vase centre de table',
+            'vase-divers' => 'Vases divers',
         ],
         'ateliers-creatifs' => [
-            'le-bracelet-fleuri' => 'Le Bracelet Fleuri',
             'la-couronne-fleurie' => 'La Couronne Fleurie',
-            'la-couronne-murale' => 'La Couronne Murale',
+            'le-bracelet-fleuri' => 'Le Bracelet Fleuri',
             'le-peigne-fleuri' => 'Le Peigne Fleuri',
+            'la-couronne-murale' => 'La Couronne Murale',
         ],
     ];
 
@@ -96,7 +101,7 @@ class ImageSeeder extends Seeder
         'accessoires-fleurs-sechees/hommes' => 'hommes',
         'cadeaux-invites/cadeaux-invites' => 'cadeaux-invites',
         'cadeaux-invites/details-personnalises' => 'details-personnalises',
-        'ateliers-creatifs/ateliers-creatifs' => 'ateliers-creatifs',
+        'ateliers-creatifs' => 'ateliers-creatifs',
         'locations/arches-de-ceremonie' => 'arches-de-ceremonie',
         'locations/decorations-personnalisees' => 'decorations-personnalisees',
         'locations/elements-decoratifs' => 'elements-decoratifs',
@@ -186,21 +191,46 @@ class ImageSeeder extends Seeder
 
             // Get the filename without extension
             $filename = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+            $filenameSlug = Str::slug($filename);
 
-            // Find which product this image belongs to
+            // Try to find a direct match in the mapping first
             $productName = null;
 
-            if (! $productName) {
-                // Normalize filename for comparison
-                $filenameSlug = Str::slug($filename);
+            // Find the BEST product match by checking prefixes in the image-to-product mapping
+            $bestMatch = null;
+            $bestMatchLength = 0;
 
-                // Get all products in this category
+            foreach ($imageToProductMapping as $imagePrefix => $mappedProductName) {
+                // Check if the filename starts with the mapping key or contains it
+                if (Str::startsWith($filenameSlug, $imagePrefix) ||
+                    Str::contains($filenameSlug, $imagePrefix)) {
+                    // If this match is longer than our previous best match, use it instead
+                    $currentMatchLength = strlen($imagePrefix);
+                    if ($currentMatchLength > $bestMatchLength) {
+                        $bestMatch = $mappedProductName;
+                        $bestMatchLength = $currentMatchLength;
+                        $this->command->info("Found better match for {$filename}: {$bestMatch} (length: {$bestMatchLength})");
+                    }
+                }
+            }
+
+            if ($bestMatch) {
+                $productName = $bestMatch;
+                $this->command->info("Matched image {$filename} to product {$productName} using prefix mapping");
+            }
+
+            // If we still don't have a product name, try the old method as fallback
+            if (! $productName) {
                 $products = Product::where('category_id', $category->id)->get();
 
-                foreach ($products as $possibleProduct) {
-                    // Check if product slug contains our filename or vice versa
-                    if (Str::contains($filenameSlug, Str::slug($possibleProduct->name)) ||
-                        Str::contains(Str::slug($possibleProduct->name), $filenameSlug)) {
+                // Sort products by name length DESC to prioritize longer, more specific names
+                $sortedProducts = $products->sortByDesc(function ($product) {
+                    return strlen($product->name);
+                });
+
+                foreach ($sortedProducts as $possibleProduct) {
+                    $productSlug = Str::slug($possibleProduct->name);
+                    if (Str::contains($filenameSlug, $productSlug)) {
                         $productName = $possibleProduct->name;
                         $this->command->info("Matched image {$filename} via slug comparison to product {$productName}");
                         break;
@@ -227,6 +257,7 @@ class ImageSeeder extends Seeder
                 continue;
             }
 
+            // Rest of your code for adding the media remains the same...
             $newImageName = Str::slug($productName);
             $existingMedia = $product->getMedia('product_images');
             // Generate a unique name for this image by appending a counter if similar names exist
