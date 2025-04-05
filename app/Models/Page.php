@@ -11,17 +11,17 @@ class Page extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'slug'
+        'slug',
     ];
 
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->hasOne(Category::class);
+        return $this->hasMany(Category::class);
     }
 }
