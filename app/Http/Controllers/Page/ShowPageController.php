@@ -22,7 +22,6 @@ class ShowPageController extends Controller
             'categories.products.media' => function ($query) {
                 $query->where('collection_name', 'product_images');
             },
-            'categories.products.options',
         ]);
 
         // Return the resource
