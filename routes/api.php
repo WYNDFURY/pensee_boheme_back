@@ -25,4 +25,5 @@ Route::name('api.')->middleware(['throttle:60,1'])->group(function () {
     require __DIR__.'/api/users.php';
     require __DIR__.'/api/pages.php';
     require __DIR__.'/api/galleries.php';
+    require __DIR__.'/api/instagram.php';
 });
