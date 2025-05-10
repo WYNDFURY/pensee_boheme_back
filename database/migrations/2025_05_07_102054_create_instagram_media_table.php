@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('instagram_media', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->softDeletes();
             $table->string('media_id')->unique();
             $table->string('caption')->nullable();
@@ -21,6 +20,7 @@ return new class extends Migration
             $table->string('media_url');
             $table->string('permalink')->nullable();
             $table->timestamp('timestamp')->nullable();
+            $table->timestamps();
         });
     }
 
