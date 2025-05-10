@@ -13,6 +13,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('app:refresh-token')
+            ->monthly()
+            ->timezone('Europe/Paris');
+
+        $schedule->command('app:fns-instagram-medias')
+            ->twiceDaily(1, 13)
+            ->timezone('Europe/Paris');
+
     }
 
     /**

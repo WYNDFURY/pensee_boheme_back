@@ -41,7 +41,7 @@ class FetchInstagramMediaService
             return $media['media_type'] === 'IMAGE' || $media['media_type'] === 'CAROUSEL_ALBUM';
         });
 
-        $filteredMedias = Arr::take($filteredMedias, 10);
+        $filteredMedias = Arr::take($filteredMedias, 12);
 
         // dd($filteredMedias);
 

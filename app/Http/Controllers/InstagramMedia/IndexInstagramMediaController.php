@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\InstagramMedia;
 
-use App\Services\FetchingInstagramMediaService;
+use App\Http\Resources\InstagramMediaResource;
+use App\Models\InstagramMedia;
 
 class IndexInstagramMediaController
 {
-    public function __invoke(FetchingInstagramMediaService $fetching)
+    public function __invoke()
     {
-        $medias = $fetching->fetchInstagramMedia();
+        $medias = InstagramMediaResource::collection(
+            InstagramMedia::all()->sortBy('timestamp', SORT_REGULAR, true)->take(12)
+        );
 
-        return $medias;
+        return response()->json($medias);
     }
 }
