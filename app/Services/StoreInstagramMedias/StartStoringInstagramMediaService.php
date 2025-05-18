@@ -2,6 +2,8 @@
 
 namespace App\Services\StoreInstagramMedias;
 
+use App\Models\InstagramMedia;
+
 class StartStoringInstagramMediaService
 {
     protected $FetchService;
@@ -16,6 +18,7 @@ class StartStoringInstagramMediaService
 
     public function startStoringInstagramMedia()
     {
+        InstagramMedia::query()->delete();
         $this->FetchService->fetchInstagramMedias();
         $fetchedMedias = $this->FetchService->fetchInstagramMedias();
         $this->StoreService->storeInstagramMedia($fetchedMedias);

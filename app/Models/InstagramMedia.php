@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InstagramMedia extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'media_id',
@@ -37,7 +37,6 @@ class InstagramMedia extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at',
         'timestamp',
     ];
 }
