@@ -14,6 +14,12 @@ class GalleryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // If this is an index request, limit media to 3 items
+        $media = $this->getMedia('gallery_images');
+        if ($request->routeIs('api.galleries.index')) {
+            $media = $media->take(3);
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -22,7 +28,7 @@ class GalleryResource extends JsonResource
             'is_published' => $this->is_published,
             'cover_image' => $this->cover_image,
             'order' => $this->order,
-            'media' => MediaResource::collection($this->whenLoaded('media', $this->getMedia('gallery_images'))),
+            'media' => MediaResource::collection($media),
         ];
     }
 }

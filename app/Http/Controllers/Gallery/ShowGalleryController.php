@@ -9,13 +9,7 @@ class ShowGalleryController
 {
     public function __invoke(Gallery $gallery)
     {
-        $gallery = GalleryResource::make(
-            $gallery->load([
-                'media' => function ($query) {
-                    $query->where('collection_name', 'gallery_images');
-                },
-            ])
-        );
+        $gallery->load('media');
 
         return new GalleryResource($gallery);
     }
