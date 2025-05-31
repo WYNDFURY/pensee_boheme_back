@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\StoreInstagramMedias\StartStoringInstagramMediaService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class FetchAndStoreInstagramMedias extends Command
 {
@@ -31,5 +32,6 @@ class FetchAndStoreInstagramMedias extends Command
         $fetchAndStoreService = app(StartStoringInstagramMediaService::class);
         $fetchAndStoreService->startStoringInstagramMedia();
         $this->info('Instagram media fetched and stored successfully.');
+        Log::info('Instagram media fetched and stored successfully.');
     }
 }

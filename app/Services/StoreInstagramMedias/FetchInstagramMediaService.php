@@ -2,6 +2,7 @@
 
 namespace App\Services\StoreInstagramMedias;
 
+use App\Models\InstagramAccessToken;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +21,7 @@ class FetchInstagramMediaService
     {
         $this->appId = env('META_APP_ID');
         $this->appSecret = env('META_APP_SECRET');
-        $this->accessToken = env('META_USER_ACCESS_TOKEN');
+        $this->accessToken = decrypt(InstagramAccessToken::where('id', 1)->first()->access_token);
         $this->instagramAccountId = env('INSTAGRAM_ACCOUNT_ID');
 
     }
@@ -42,8 +43,6 @@ class FetchInstagramMediaService
         });
 
         $filteredMedias = Arr::take($filteredMedias, 12);
-
-        // dd($filteredMedias);
 
         if ($response->clientError()) {
             // Handle the error
