@@ -23,6 +23,7 @@ class GalleryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'photographer' => $this->photographer,
             'slug' => $this->slug,
             'description' => $this->description,
             'is_published' => $this->is_published,

@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
             // PageSeeder::class,
             // CategorySeeder::class,
             // GallerySeeder::class,
-            GalleryImageSeeder::class,
+            // GalleryImageSeeder::class,
             // ProductSeeder::class,
             // ProductOptionSeeder::class,
-            // ImageSeeder::class,
+            ImageSeeder::class,
         ]);
     }
 }

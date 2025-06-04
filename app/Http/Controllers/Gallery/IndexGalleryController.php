@@ -11,7 +11,7 @@ class IndexGalleryController
     {
         $galleries = Gallery::with('media')->get();
 
-        $galleries = $galleries->filter(function ($gallery) {
+        $galleries = $galleries->sortBy('id', SORT_REGULAR, true)->filter(function ($gallery) {
             return $gallery->getMedia('gallery_images')->isNotEmpty();
         })->values();
 
