@@ -12,8 +12,11 @@ class StoreInstagramMediaService
         Log::info('Storing Instagram media...');
         // Assuming $fetchedMedias is an array of media data
         foreach ($fetchedMedias as $media) {
-            // clear all the existing instagram medias
+            if (empty($media['media_url'])) {
+                Log::warning('Media URL is missing for media ID: '.$media['id']);
 
+                continue; // Skip this media if the URL is missing
+            }
             // Create a new InstagramMedia record
             InstagramMedia::create([
                 'media_id' => $media['id'],
