@@ -19,3 +19,6 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+RewriteCond %{HTTP_HOST} ^api\.pensee\-boheme\.fr$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.api\.pensee\-boheme\.fr$
+RewriteRule ^/?$ "https\:\/\/pensee\-boheme\.fr\/" [R=302,L]
