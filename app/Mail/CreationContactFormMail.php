@@ -28,7 +28,7 @@ class CreationContactFormMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nouvelle demande de création personnalisée - Pensée Bohème',
+            subject: sprintf('Nouvelle demande de création personnalisée - %s %s', $this->contactData['firstName'], $this->contactData['lastName'])
         );
     }
 

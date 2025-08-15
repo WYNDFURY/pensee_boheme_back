@@ -18,7 +18,7 @@ class RefreshLongLivedTokenService
     {
         $this->appId = config('tokenHandler.meta_app_id');
         $this->appSecret = config('tokenHandler.meta_app_secret');
-        $this->accessToken = decrypt(InstagramAccessToken::where('id', 1)->first()->access_token);
+        $this->accessToken = decrypt(InstagramAccessToken::first()->access_token);
 
     }
 

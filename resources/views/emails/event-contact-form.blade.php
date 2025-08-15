@@ -47,7 +47,7 @@
 
 <body>
     <div class="header">
-        <h1>Nouvelle demande d'événement</h1>
+        <h1>Nouvelle demande d'événement {{ $data['firstName'] }} {{ $data['lastName'] }}</h1>
         <p>Pensée Bohème</p>
     </div>
 

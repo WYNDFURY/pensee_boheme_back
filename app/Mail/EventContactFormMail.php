@@ -28,7 +28,7 @@ class EventContactFormMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Nouvelle demande d'événement - Pensée Bohème",
+            subject: sprintf('Nouvelle demande d\'événement - %s %s', $this->contactData['firstName'], $this->contactData['lastName']),
         );
     }
 

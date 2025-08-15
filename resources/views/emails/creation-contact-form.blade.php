@@ -46,7 +46,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Nouvelle demande de création personnalisée</h1>
+        <h1>Nouvelle demande de création personnalisée de {{ $data['firstName'] }} {{ $data['lastName'] }}</h1>
         <p>Pensée Bohème</p>
     </div>
 
