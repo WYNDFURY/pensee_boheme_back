@@ -14,6 +14,7 @@ class StoreCategoryController extends Controller
   {
     $validated = $request->validate([
       'name' => 'required|string|max:255',
+      'slug' => 'required|string|max:255|unique:categories,slug',
       'description' => 'nullable|string',
       'order' => 'nullable|integer',
       'page_id' => 'required|integer|exists:pages,id',

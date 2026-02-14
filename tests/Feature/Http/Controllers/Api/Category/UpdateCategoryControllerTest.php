@@ -1,0 +1,32 @@
+<?php
+
+use function Pest\Laravel\patchJson;
+use App\Models\Category;
+
+it('updates a category', function () {
+    $category = Category::factory()->create();
+
+    patchJson("/api/categories/{$category->id}", ['name' => 'Updated'])
+        ->assertOk()
+        ->assertJsonPath('category.name', 'Updated');
+
+    $this->assertDatabaseHas('categories', ['id' => $category->id, 'name' => 'Updated']);
+});
+
+it('allows partial update', function () {
+    $category = Category::factory()->create();
+    $originalName = $category->name;
+
+    patchJson("/api/categories/{$category->id}", ['description' => 'New description'])
+        ->assertOk();
+
+    $this->assertDatabaseHas('categories', ['id' => $category->id, 'name' => $originalName]);
+});
+
+it('rejects nonexistent page_id', function () {
+    $category = Category::factory()->create();
+
+    patchJson("/api/categories/{$category->id}", ['page_id' => 9999])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['page_id']);
+});
