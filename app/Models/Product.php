@@ -44,8 +44,12 @@ class Product extends Model implements HasMedia
         return $this->hasMany(ProductOption::class);
     }
 
-    // method to register a media collection for the product
-    public function registerMediaCollections(?Media $media = null): void
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('product_images');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('optimized')
             ->format('webp')

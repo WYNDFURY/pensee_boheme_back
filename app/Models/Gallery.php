@@ -33,7 +33,12 @@ class Gallery extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public function registerMediaCollections(?Media $media = null): void
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('gallery_images');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('optimized')
             ->format('webp')

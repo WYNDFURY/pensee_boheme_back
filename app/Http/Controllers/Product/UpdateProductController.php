@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -17,14 +17,20 @@ class UpdateProductController
             'price' => 'sometimes|numeric|min:0',
             'category_id' => 'sometimes|exists:categories,id',
             'is_active' => 'sometimes|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,webp,gif|max:10240',
         ]);
 
-        // Update product with validated data
-        $product->update($validated);
+        $product->update(collect($validated)->except('image')->toArray());
+
+        if ($request->hasFile('image')) {
+            $product->addMediaFromRequest('image')->toMediaCollection('product_images');
+        }
+
+        $product->load('media');
 
         return response()->json([
             'message' => 'Product updated successfully',
-            'product' => $product,
+            'product' => new ProductResource($product),
         ]);
     }
 }

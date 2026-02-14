@@ -1,6 +1,8 @@
 <?php
 
 use function Pest\Laravel\postJson;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
@@ -65,4 +67,46 @@ it('rejects negative price', function () {
         'price' => -5,
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['price']);
+});
+
+it('creates a product with an image', function () {
+    Storage::fake('media');
+    $category = Category::factory()->create();
+
+    $response = postJson('/api/products', [
+        'name' => 'Peigne Fleur',
+        'slug' => 'peigne-fleur-image',
+        'category_id' => $category->id,
+        'image' => UploadedFile::fake()->image('photo.jpg', 600, 400),
+    ]);
+
+    $response->assertCreated()
+        ->assertJsonPath('product.name', 'Peigne Fleur')
+        ->assertJsonCount(1, 'product.media');
+
+    $product = Product::where('slug', 'peigne-fleur-image')->first();
+    expect($product->getMedia('product_images'))->toHaveCount(1);
+});
+
+it('creates a product without an image', function () {
+    $category = Category::factory()->create();
+
+    postJson('/api/products', [
+        'name' => 'No Image',
+        'slug' => 'no-image',
+        'category_id' => $category->id,
+    ])->assertCreated()
+        ->assertJsonCount(0, 'product.media');
+});
+
+it('rejects non-image file on product creation', function () {
+    $category = Category::factory()->create();
+
+    postJson('/api/products', [
+        'name' => 'Test',
+        'slug' => 'test-pdf',
+        'category_id' => $category->id,
+        'image' => UploadedFile::fake()->create('doc.pdf', 100, 'application/pdf'),
+    ])->assertUnprocessable()
+        ->assertJsonValidationErrors(['image']);
 });

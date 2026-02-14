@@ -1,6 +1,8 @@
 <?php
 
 use function Pest\Laravel\postJson;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Gallery;
 use App\Models\User;
 
@@ -37,4 +39,59 @@ it('rejects duplicate slug', function () {
         'slug' => 'existing',
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['slug']);
+});
+
+it('creates a gallery with multiple images', function () {
+    Storage::fake('media');
+
+    $response = postJson('/api/galleries', [
+        'name' => 'Wedding Gallery',
+        'slug' => 'wedding-gallery',
+        'images' => [
+            UploadedFile::fake()->image('photo1.jpg', 600, 400),
+            UploadedFile::fake()->image('photo2.jpg', 600, 400),
+            UploadedFile::fake()->image('photo3.jpg', 600, 400),
+        ],
+    ]);
+
+    $response->assertCreated()
+        ->assertJsonPath('gallery.name', 'Wedding Gallery')
+        ->assertJsonCount(3, 'gallery.media');
+
+    $gallery = Gallery::where('slug', 'wedding-gallery')->first();
+    expect($gallery->getMedia('gallery_images'))->toHaveCount(3);
+});
+
+it('creates a gallery without images', function () {
+    postJson('/api/galleries', [
+        'name' => 'Empty Gallery',
+        'slug' => 'empty-gallery',
+    ])->assertCreated()
+        ->assertJsonCount(0, 'gallery.media');
+});
+
+it('rejects more than 20 images', function () {
+    $images = [];
+    for ($i = 0; $i < 21; $i++) {
+        $images[] = UploadedFile::fake()->image("photo{$i}.jpg", 100, 100);
+    }
+
+    postJson('/api/galleries', [
+        'name' => 'Too Many',
+        'slug' => 'too-many',
+        'images' => $images,
+    ])->assertUnprocessable()
+        ->assertJsonValidationErrors(['images']);
+});
+
+it('rejects non-image file in batch', function () {
+    postJson('/api/galleries', [
+        'name' => 'Bad Batch',
+        'slug' => 'bad-batch',
+        'images' => [
+            UploadedFile::fake()->image('good.jpg', 100, 100),
+            UploadedFile::fake()->create('doc.pdf', 100, 'application/pdf'),
+        ],
+    ])->assertUnprocessable()
+        ->assertJsonValidationErrors(['images.1']);
 });

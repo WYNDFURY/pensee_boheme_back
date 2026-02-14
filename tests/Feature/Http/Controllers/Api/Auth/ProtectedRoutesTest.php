@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Mail;
 use function Pest\Laravel\postJson;
+use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\get;
 
 it('rejects unauthenticated product creation', function () {
@@ -39,4 +40,8 @@ it('allows public contact form submission', function () {
         'message' => 'Hello',
         'additional_info' => '',
     ])->assertStatus(200);
+});
+
+it('rejects unauthenticated media deletion', function () {
+    deleteJson('/api/media/1')->assertUnauthorized();
 });

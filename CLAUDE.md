@@ -108,7 +108,8 @@ Uses **Pest PHP** with Laravel plugin. `RefreshDatabase` enabled globally in `te
 
 ## Skills
 
-A **laravel-specialist** skill is available at `.claude/skills/laravel-specialist/`. Consult it when implementing Laravel features — it provides reference guides for Eloquent, routing/APIs, queues, Livewire, and testing under `references/`. Follow its constraints: type-hint all methods, use Eloquent relationships properly (avoid N+1), use API resources for response transformation, extract business logic into services, and write tests for every feature.
+- **laravel-specialist** (`.claude/skills/laravel-specialist/`): Consult when implementing Laravel features — provides reference guides for Eloquent, routing/APIs, queues, Livewire, and testing under `references/`. Follow its constraints: type-hint all methods, use Eloquent relationships properly (avoid N+1), use API resources for response transformation, extract business logic into services, and write tests for every feature.
+- **medialibrary-development** (`.claude/skills/medialibrary-development/`): Consult when working with file uploads, media attachments, or image processing. Covers Spatie MediaLibrary patterns: model setup (`HasMedia` + `InteractsWithMedia`), adding media from requests/URLs, defining collections and conversions, retrieving media URLs. See `references/medialibrary-guide.md` for detailed API.
 
 ## Spec-Driven Development
 
