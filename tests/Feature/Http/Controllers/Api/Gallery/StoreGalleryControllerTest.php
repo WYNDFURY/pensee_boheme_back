@@ -2,6 +2,11 @@
 
 use function Pest\Laravel\postJson;
 use App\Models\Gallery;
+use App\Models\User;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
 
 it('creates a gallery with valid data', function () {
     $response = postJson('/api/galleries', [

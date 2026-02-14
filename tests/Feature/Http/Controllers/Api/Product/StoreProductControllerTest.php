@@ -3,6 +3,11 @@
 use function Pest\Laravel\postJson;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
 
 it('creates a product with valid data', function () {
     $category = Category::factory()->create();

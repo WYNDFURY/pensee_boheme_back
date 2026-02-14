@@ -2,6 +2,11 @@
 
 use function Pest\Laravel\postJson;
 use App\Models\Page;
+use App\Models\User;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
 
 it('creates a category with valid data', function () {
     $page = Page::factory()->create();

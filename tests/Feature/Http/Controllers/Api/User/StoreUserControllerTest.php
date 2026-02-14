@@ -4,6 +4,10 @@ use function Pest\Laravel\postJson;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
+
 it('creates a user with valid data', function () {
     $response = postJson('/api/users', [
         'first_name' => 'Marie',

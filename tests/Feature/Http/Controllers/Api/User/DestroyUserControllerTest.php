@@ -3,6 +3,10 @@
 use function Pest\Laravel\delete;
 use App\Models\User;
 
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
+
 it('soft deletes a user', function () {
     $user = User::factory()->create();
 

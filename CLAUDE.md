@@ -4,7 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Laravel 10 REST API backend for "Pensée Bohème", an e-commerce/portfolio platform. PHP 8.1+, MySQL, runs on Laragon (Windows).
+Laravel 10 REST API backend for **Pensée Bohème**, a brochure/portfolio website for a boutique eco-responsible florist in Normandy. The site showcases work, communicates values, and generates contact/booking inquiries. **Not an e-commerce store** — no cart, no payments. The API serves content (galleries, products, categories, pages) and processes contact form submissions. A Nuxt 3 frontend consumes this API at build time (SSG).
+
+See `specs/product.md` for full product vision, target audiences, and brand identity.
+
+### Business-to-Code Glossary
+
+| Business Term | Model | Notes |
+|---|---|---|
+| Service line / "Univers" | `Page` | Top-level grouping (e.g. mariages, accessoires) |
+| Creations | `Product` | Items within a Category, showcased with images |
+| Options / Variants | `ProductOption` | Size, color, or style variants of a Product |
+| Photo galleries | `Gallery` | Primary conversion tool — image-heavy, Spatie MediaLibrary |
+| Contact requests | Contact form controllers | Two types: creation inquiries and event bookings |
 
 ## Commands
 
@@ -77,7 +89,7 @@ JSON response transformation uses `app/Http/Resources/*Resource.php` classes (La
 
 ### External Integrations
 
-- **Authentication**: Laravel Sanctum (token-based)
+- **Authentication**: Laravel Sanctum (token-based) — currently no auth middleware on API routes, admin login planned
 - **Media/Images**: Spatie MediaLibrary (WebP conversion, 50MB max)
 - **Email**: Mailgun (production), Mailpit (dev)
 - **Instagram**: Meta Graph API v22.0, with retry logic (3 retries, 2s backoff)
@@ -88,7 +100,15 @@ Two contact form controllers with honeypot spam prevention (`additional_info` fi
 
 ## Testing
 
-Uses **Pest PHP** with Laravel plugin. Tests in `tests/Feature/Http/Controllers/Api/`. RefreshDatabase trait is available but commented out in `tests/Pest.php` — enable per-test as needed.
+Uses **Pest PHP** with Laravel plugin. `RefreshDatabase` enabled globally in `tests/Pest.php` for both Feature and Unit directories. Always implement tests when building new features.
+
+- Feature tests: `tests/Feature/Http/Controllers/Api/`
+- Unit tests: `tests/Unit/Models/` and `tests/Unit/Services/`
+- Console tests: `tests/Feature/Console/`
+
+## Skills
+
+A **laravel-specialist** skill is available at `.claude/skills/laravel-specialist/`. Consult it when implementing Laravel features — it provides reference guides for Eloquent, routing/APIs, queues, Livewire, and testing under `references/`. Follow its constraints: type-hint all methods, use Eloquent relationships properly (avoid N+1), use API resources for response transformation, extract business logic into services, and write tests for every feature.
 
 ## Spec-Driven Development
 

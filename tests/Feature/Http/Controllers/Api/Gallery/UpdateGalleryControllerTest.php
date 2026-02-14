@@ -2,6 +2,11 @@
 
 use function Pest\Laravel\patch;
 use App\Models\Gallery;
+use App\Models\User;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
 
 it('updates a gallery', function () {
     $gallery = Gallery::factory()->create();

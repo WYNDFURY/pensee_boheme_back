@@ -2,6 +2,11 @@
 
 use function Pest\Laravel\patchJson;
 use App\Models\Category;
+use App\Models\User;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
 
 it('updates a category', function () {
     $category = Category::factory()->create();

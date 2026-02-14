@@ -2,6 +2,11 @@
 
 use function Pest\Laravel\delete;
 use App\Models\Page;
+use App\Models\User;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
 
 it('soft deletes a page', function () {
     $page = Page::factory()->create();

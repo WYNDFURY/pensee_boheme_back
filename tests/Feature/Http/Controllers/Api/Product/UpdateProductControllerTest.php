@@ -2,6 +2,11 @@
 
 use function Pest\Laravel\patchJson;
 use App\Models\Product;
+use App\Models\User;
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
 
 it('updates a product', function () {
     $product = Product::factory()->create();

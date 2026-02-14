@@ -9,9 +9,12 @@ use App\Http\Controllers\User\UpdateUserController;
 
 // Users Routes
 Route::prefix('users')->name('users.')->group(function () {
-  Route::post('/', StoreUserController::class)->name('store');
-  Route::patch('/{user}', UpdateUserController::class)->name('update');
-  Route::get('/{user}', ShowUserController::class)->name('show');
-  Route::delete('/{user}', DestroyUserController::class)->name('destroy');
   Route::get('/', IndexUserController::class)->name('index');
+  Route::get('/{user}', ShowUserController::class)->name('show');
+
+  Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/', StoreUserController::class)->name('store');
+    Route::patch('/{user}', UpdateUserController::class)->name('update');
+    Route::delete('/{user}', DestroyUserController::class)->name('destroy');
+  });
 });

@@ -4,6 +4,10 @@ use function Pest\Laravel\patchJson;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+beforeEach(function () {
+    $this->actingAs(User::factory()->create());
+});
+
 it('updates a user', function () {
     $user = User::factory()->create();
 
