@@ -23,7 +23,7 @@ class GallerySeeder extends Seeder
         ['name' => 'Épanouissement Sauvage', 'photographer' => 'Cupcakes Photographie'],
         ['name' => 'Inspiration Bridgerton', 'photographer' => 'Allison Blomme'],
         ['name' => 'Inspiration Vintage Industriel', 'photographer' => 'Cupcakes Photographie'],
-        ['name' => 'Terracota Lovers', 'photographer' => null],
+        ['name' => 'Terracotta Lovers', 'photographer' => null],
         ['name' => 'Éclat de sauge', 'photographer' => 'Callmekelly Photography'],
         ['name' => 'Inspiration Satin Chic', 'photographer' => 'Aline Largenton'],
     ];

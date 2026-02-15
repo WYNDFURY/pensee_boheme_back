@@ -14,8 +14,12 @@ class GalleryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Get all media for count
+        $allMedia = $this->getMedia('gallery_images');
+        $imagesCount = $allMedia->count();
+
         // If this is an index request, limit media to 3 items
-        $media = $this->getMedia('gallery_images');
+        $media = $allMedia;
         if ($request->routeIs('api.galleries.index')) {
             $media = $media->take(3);
         }
@@ -29,6 +33,7 @@ class GalleryResource extends JsonResource
             'is_published' => $this->is_published,
             'cover_image' => $this->cover_image,
             'order' => $this->order,
+            'images_count' => $imagesCount,
             'media' => MediaResource::collection($media),
         ];
     }

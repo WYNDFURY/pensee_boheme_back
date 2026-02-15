@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Gallery;
 
-use App\Http\Controllers\Controller;
+use App\Http\Resources\GalleryResource;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
 
@@ -16,14 +16,23 @@ class UpdateGalleryController
       'description' => 'nullable|string',
       'is_published' => 'sometimes|boolean',
       'order' => 'sometimes|integer',
+      'images' => 'nullable|array|max:20',
+      'images.*' => 'image|mimes:jpeg,png,webp,gif|max:10240',
     ]);
 
-    // Update gallery with validated data
-    $gallery->update($validated);
+    $gallery->update(collect($validated)->except('images')->toArray());
+
+    if ($request->hasFile('images')) {
+      foreach ($request->file('images') as $file) {
+        $gallery->addMedia($file)->toMediaCollection('gallery_images');
+      }
+    }
+
+    $gallery->load('media');
 
     return response()->json([
       'message' => 'Gallery updated successfully',
-      'gallery' => $gallery,
+      'gallery' => new GalleryResource($gallery),
     ]);
   }
 }

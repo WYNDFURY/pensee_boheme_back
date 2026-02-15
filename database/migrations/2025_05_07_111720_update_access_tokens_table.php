@@ -12,6 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('instagram_access_tokens', function (Blueprint $table) {
+            $table->dropUnique(['access_token']);
+        });
+
+        Schema::table('instagram_access_tokens', function (Blueprint $table) {
             $table->text('access_token')->change();
         });
     }

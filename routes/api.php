@@ -27,4 +27,8 @@ Route::name('api.')->middleware(['throttle:60,1'])->group(function () {
     require __DIR__.'/api/galleries.php';
     require __DIR__.'/api/instagram.php';
     require __DIR__.'/api/contact.php';
+    require __DIR__.'/api/media.php';
 });
+
+// Auth routes outside api.* prefix so 'login' route name resolves for Authenticate middleware
+require __DIR__.'/api/auth.php';
