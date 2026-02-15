@@ -39,7 +39,7 @@ class GalleryImageSeeder extends Seeder
     {
         $this->command->info('Starting Gallery Image Seeder...');
 
-        $basePath = storage_path('app/public/galleries');
+        $basePath = storage_path('seed-images/galleries');
 
         if (! File::isDirectory($basePath)) {
             $this->command->error("Base directory not found: {$basePath}");

@@ -115,7 +115,7 @@ class ImageSeeder extends Seeder
     {
         $this->command->info('Starting Image Seeder...');
 
-        $basePath = storage_path('app/public/products');
+        $basePath = storage_path('seed-images/products');
 
         if (! File::isDirectory($basePath)) {
             $this->command->error("Base directory not found: {$basePath}");
