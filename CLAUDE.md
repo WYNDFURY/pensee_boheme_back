@@ -102,6 +102,8 @@ Two contact form controllers with honeypot spam prevention (`additional_info` fi
 
 Uses **Pest PHP** with Laravel plugin. `RefreshDatabase` enabled globally in `tests/Pest.php` for both Feature and Unit directories. Always implement tests when building new features.
 
+Tests run against a dedicated **`pensee_boheme_db_test`** MySQL database (configured in `phpunit.xml`), never the dev database. `RefreshDatabase` migrates and rolls back within this test DB.
+
 - Feature tests: `tests/Feature/Http/Controllers/Api/`
 - Unit tests: `tests/Unit/Models/` and `tests/Unit/Services/`
 - Console tests: `tests/Feature/Console/`

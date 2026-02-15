@@ -19,3 +19,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/storage/seed-images/
+/storage/media-library/

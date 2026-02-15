@@ -277,6 +277,7 @@ class ImageSeeder extends Seeder
             try {
                 // Add the media to the product
                 $product->addMedia($file->getPathname())
+                    ->preservingOriginal()
                     ->usingName($newImageName)
                     ->toMediaCollection('product_images');
 
