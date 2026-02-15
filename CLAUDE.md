@@ -40,6 +40,11 @@ php artisan migrate:fresh --seed
 # Custom commands
 php artisan app:fns-instagram-medias   # Fetch Instagram media
 php artisan app:refresh-token          # Refresh Instagram token
+
+# Regenerate media conversions for existing uploads
+php artisan media-library:regenerate
+php artisan media-library:regenerate --model=App\\Models\\Product
+php artisan media-library:regenerate --model=App\\Models\\Gallery
 ```
 
 ## Architecture
@@ -90,7 +95,7 @@ JSON response transformation uses `app/Http/Resources/*Resource.php` classes (La
 ### External Integrations
 
 - **Authentication**: Laravel Sanctum (token-based) — currently no auth middleware on API routes, admin login planned
-- **Media/Images**: Spatie MediaLibrary (WebP conversion, 50MB max)
+- **Media/Images**: Spatie MediaLibrary with `spatie/image-optimizer`. Three responsive conversions per upload: `thumb` (400×400 crop, WebP q80), `medium` (1200px, WebP q85), `large` (2000px, WebP q85). All optimized and synchronous. `MediaResource` returns nested `urls` object with `thumb`, `medium`, `large`, `original`.
 - **Email**: Mailgun (production), Mailpit (dev)
 - **Instagram**: Meta Graph API v22.0, with retry logic (3 retries, 2s backoff)
 
@@ -105,7 +110,7 @@ Uses **Pest PHP** with Laravel plugin. `RefreshDatabase` enabled globally in `te
 Tests run against a dedicated **`pensee_boheme_db_test`** MySQL database (configured in `phpunit.xml`), never the dev database. `RefreshDatabase` migrates and rolls back within this test DB.
 
 - Feature tests: `tests/Feature/Http/Controllers/Api/`
-- Unit tests: `tests/Unit/Models/` and `tests/Unit/Services/`
+- Unit tests: `tests/Unit/Models/`, `tests/Unit/Services/`, and `tests/Unit/Http/Resources/`
 - Console tests: `tests/Feature/Console/`
 
 ## Skills

@@ -82,10 +82,30 @@ it('creates a product with an image', function () {
 
     $response->assertCreated()
         ->assertJsonPath('product.name', 'Peigne Fleur')
-        ->assertJsonCount(1, 'product.media');
+        ->assertJsonCount(1, 'product.media')
+        ->assertJsonStructure(['product' => ['media' => [['urls' => ['thumb', 'medium', 'large', 'original']]]]]);
 
     $product = Product::where('slug', 'peigne-fleur-image')->first();
     expect($product->getMedia('product_images'))->toHaveCount(1);
+});
+
+it('generates three conversions when uploading product image', function () {
+    Storage::fake('media');
+    $category = Category::factory()->create();
+
+    postJson('/api/products', [
+        'name' => 'Conversion Test',
+        'slug' => 'conversion-test',
+        'category_id' => $category->id,
+        'image' => UploadedFile::fake()->image('photo.jpg', 2000, 1500),
+    ])->assertCreated();
+
+    $product = Product::where('slug', 'conversion-test')->first();
+    $media = $product->getFirstMedia('product_images');
+
+    expect($media->hasGeneratedConversion('thumb'))->toBeTrue();
+    expect($media->hasGeneratedConversion('medium'))->toBeTrue();
+    expect($media->hasGeneratedConversion('large'))->toBeTrue();
 });
 
 it('creates a product without an image', function () {

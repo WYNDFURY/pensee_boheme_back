@@ -56,10 +56,34 @@ it('creates a gallery with multiple images', function () {
 
     $response->assertCreated()
         ->assertJsonPath('gallery.name', 'Wedding Gallery')
-        ->assertJsonCount(3, 'gallery.media');
+        ->assertJsonCount(3, 'gallery.media')
+        ->assertJsonStructure(['gallery' => ['media' => [['urls' => ['thumb', 'medium', 'large', 'original']]]]]);
 
     $gallery = Gallery::where('slug', 'wedding-gallery')->first();
     expect($gallery->getMedia('gallery_images'))->toHaveCount(3);
+});
+
+it('generates conversions for all uploaded gallery images', function () {
+    Storage::fake('media');
+
+    postJson('/api/galleries', [
+        'name' => 'Conversion Gallery',
+        'slug' => 'conversion-gallery',
+        'images' => [
+            UploadedFile::fake()->image('photo1.jpg', 1920, 1080),
+            UploadedFile::fake()->image('photo2.jpg', 1600, 900),
+        ],
+    ])->assertCreated();
+
+    $gallery = Gallery::where('slug', 'conversion-gallery')->first();
+    $media = $gallery->getMedia('gallery_images');
+
+    expect($media)->toHaveCount(2);
+    foreach ($media as $item) {
+        expect($item->hasGeneratedConversion('thumb'))->toBeTrue();
+        expect($item->hasGeneratedConversion('medium'))->toBeTrue();
+        expect($item->hasGeneratedConversion('large'))->toBeTrue();
+    }
 });
 
 it('creates a gallery without images', function () {
