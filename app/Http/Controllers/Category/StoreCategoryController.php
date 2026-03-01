@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Models\Page;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class StoreCategoryController extends Controller
 {
@@ -21,10 +20,11 @@ class StoreCategoryController extends Controller
     ]);
 
     $category = Category::create($validated);
+    $category->load('page');
 
     return response()->json([
       'message' => 'Category created successfully',
-      'category' => $category,
+      'data' => new CategoryResource($category),
     ], 201);
   }
 }

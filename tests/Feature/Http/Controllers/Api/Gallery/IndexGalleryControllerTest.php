@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 it('excludes galleries without media', function () {
     Gallery::factory()->count(3)->create();
-    get('/api/galleries')->assertOk()->assertJsonCount(0, 'data');
+    get('/api/galleries')->assertOk()->assertJsonCount(0);
 });
 
 it('returns empty array when no galleries exist', function () {
-    get('/api/galleries')->assertOk()->assertJsonCount(0, 'data');
+    get('/api/galleries')->assertOk()->assertJsonCount(0);
 });
 
 it('returns images_count for each gallery', function () {
@@ -27,7 +27,7 @@ it('returns images_count for each gallery', function () {
     $response = get('/api/galleries');
 
     $response->assertOk()
-        ->assertJsonCount(1, 'data')
-        ->assertJsonPath('data.0.images_count', 5)
-        ->assertJsonCount(3, 'data.0.media'); // Media limited to 3 on index
+        ->assertJsonCount(1)
+        ->assertJsonPath('0.images_count', 5)
+        ->assertJsonCount(3, '0.media'); // Media limited to 3 on index
 });

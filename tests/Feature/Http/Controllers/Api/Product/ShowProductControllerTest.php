@@ -8,9 +8,9 @@ it('returns a product with relationships', function () {
 
     get("/api/products/{$product->id}")
         ->assertOk()
-        ->assertJsonPath('data.id', $product->id)
-        ->assertJsonPath('data.name', $product->name)
-        ->assertJsonPath('data.category_id', $product->category_id);
+        ->assertJsonPath('id', $product->id)
+        ->assertJsonPath('name', $product->name)
+        ->assertJsonPath('category_name', $product->category->name);
 });
 
 it('returns 404 for nonexistent product', function () {

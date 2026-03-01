@@ -33,7 +33,7 @@ class StoreGalleryController extends Controller
 
     return response()->json([
       'message' => 'Gallery created successfully',
-      'gallery' => new GalleryResource($gallery),
+      'data' => new GalleryResource($gallery),
     ], 201);
   }
 }

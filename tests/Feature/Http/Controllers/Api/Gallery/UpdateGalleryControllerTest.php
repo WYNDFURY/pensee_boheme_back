@@ -16,7 +16,7 @@ it('updates a gallery', function () {
 
     patch("/api/galleries/{$gallery->slug}", ['name' => 'Updated Name'])
         ->assertOk()
-        ->assertJsonPath('gallery.name', 'Updated Name');
+        ->assertJsonPath('data.name', 'Updated Name');
 
     $this->assertDatabaseHas('galleries', ['id' => $gallery->id, 'name' => 'Updated Name']);
 });
@@ -48,7 +48,7 @@ it('appends images when updating a gallery', function () {
             UploadedFile::fake()->image('new.jpg', 600, 400),
         ],
     ])->assertOk()
-        ->assertJsonCount(3, 'gallery.media');
+        ->assertJsonCount(3, 'data.media');
 
     expect($gallery->fresh()->getMedia('gallery_images'))->toHaveCount(3);
 });
@@ -61,7 +61,7 @@ it('preserves existing images when updating without images', function () {
 
     patch("/api/galleries/{$gallery->slug}", ['name' => 'No New Images'])
         ->assertOk()
-        ->assertJsonCount(1, 'gallery.media');
+        ->assertJsonCount(1, 'data.media');
 
     expect($gallery->fresh()->getMedia('gallery_images'))->toHaveCount(1);
 });

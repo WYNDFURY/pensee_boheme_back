@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,9 @@ class StoreUserController
       'password' => bcrypt($validated['password']),
     ]);
 
-    return response()->json($user, 201);
+    return response()->json([
+      'message' => 'User created successfully',
+      'data' => new UserResource($user),
+    ], 201);
   }
 }

@@ -8,8 +8,8 @@ it('returns a gallery by slug', function () {
 
     get("/api/galleries/{$gallery->slug}")
         ->assertOk()
-        ->assertJsonPath('data.slug', $gallery->slug)
-        ->assertJsonPath('data.name', $gallery->name);
+        ->assertJsonPath('slug', $gallery->slug)
+        ->assertJsonPath('name', $gallery->name);
 });
 
 it('returns 404 for nonexistent slug', function () {

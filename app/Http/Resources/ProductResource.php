@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
             'price_formatted' => $this->has_price ? number_format($this->price, 2).' €' : null,
             'is_active' => $this->is_active,
             'has_price' => $this->has_price,
-            'category_id' => $this->category_id,
+            'category_name' => $this->category ? $this->category->name : null,
             'media' => MediaResource::collection($this->whenLoaded('media', $this->getMedia('product_images'))),
             'options' => $this->when($this->relationLoaded('options') && $this->options->isNotEmpty(),
                 ProductOptionResource::collection($this->options)

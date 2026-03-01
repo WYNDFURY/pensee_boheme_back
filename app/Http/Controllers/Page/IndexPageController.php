@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Page;
 
+use App\Http\Resources\PageResource;
 use App\Models\Page;
 
 class IndexPageController
 {
     public function __invoke()
     {
-        $pages = Page::all();
-
-        return response()->json($pages);
+        return PageResource::collection(Page::all());
     }
 }

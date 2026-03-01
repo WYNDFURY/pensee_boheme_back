@@ -13,7 +13,7 @@ it('updates a user', function () {
 
     patchJson("/api/users/{$user->id}", ['first_name' => 'Updated'])
         ->assertOk()
-        ->assertJsonPath('first_name', 'Updated');
+        ->assertJsonPath('data.first_name', 'Updated');
 
     $this->assertDatabaseHas('users', ['id' => $user->id, 'first_name' => 'Updated']);
 });

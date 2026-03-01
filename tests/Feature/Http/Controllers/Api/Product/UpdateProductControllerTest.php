@@ -17,7 +17,7 @@ it('updates a product', function () {
     patchJson("/api/products/{$product->id}", [
         'name' => 'Updated Name',
     ])->assertOk()
-        ->assertJsonPath('product.name', 'Updated Name');
+        ->assertJsonPath('data.name', 'Updated Name');
 
     $this->assertDatabaseHas('products', ['id' => $product->id, 'name' => 'Updated Name']);
 });
@@ -50,8 +50,8 @@ it('adds an image when updating a product', function () {
         'name' => 'With Image',
         'image' => UploadedFile::fake()->image('photo.jpg', 600, 400),
     ])->assertOk()
-        ->assertJsonPath('product.name', 'With Image')
-        ->assertJsonCount(1, 'product.media');
+        ->assertJsonPath('data.name', 'With Image')
+        ->assertJsonCount(1, 'data.media');
 
     expect($product->fresh()->getMedia('product_images'))->toHaveCount(1);
 });
@@ -64,7 +64,7 @@ it('preserves existing images when updating without image', function () {
 
     patchJson("/api/products/{$product->id}", ['name' => 'No New Image'])
         ->assertOk()
-        ->assertJsonCount(1, 'product.media');
+        ->assertJsonCount(1, 'data.media');
 
     expect($product->fresh()->getMedia('product_images'))->toHaveCount(1);
 });

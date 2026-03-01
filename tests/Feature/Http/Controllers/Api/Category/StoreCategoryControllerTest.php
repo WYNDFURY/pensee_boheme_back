@@ -20,8 +20,8 @@ it('creates a category with valid data', function () {
     ]);
 
     $response->assertCreated()
-        ->assertJsonPath('category.name', 'Accessoires')
-        ->assertJsonPath('category.page_id', $page->id);
+        ->assertJsonPath('data.name', 'Accessoires')
+        ->assertJsonPath('data.page_slug', $page->slug);
 
     $this->assertDatabaseHas('categories', [
         'name' => 'Accessoires',

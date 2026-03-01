@@ -17,9 +17,9 @@ it('creates a user with valid data', function () {
     ]);
 
     $response->assertCreated()
-        ->assertJsonPath('first_name', 'Marie')
-        ->assertJsonPath('last_name', 'Dupont')
-        ->assertJsonPath('email', 'marie@example.com');
+        ->assertJsonPath('data.first_name', 'Marie')
+        ->assertJsonPath('data.last_name', 'Dupont')
+        ->assertJsonPath('data.email', 'marie@example.com');
 
     $this->assertDatabaseHas('users', [
         'first_name' => 'Marie',

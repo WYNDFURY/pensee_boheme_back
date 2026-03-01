@@ -15,7 +15,7 @@ class CategoryResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'order' => $this->order,
-            'page_id' => $this->page_id,
+            'page_slug' => $this->page ? $this->page->slug : null,
             'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }

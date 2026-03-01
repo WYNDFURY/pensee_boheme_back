@@ -13,7 +13,7 @@ it('updates a page slug', function () {
 
     patchJson("/api/pages/{$page->slug}", ['slug' => 'new-slug'])
         ->assertOk()
-        ->assertJsonPath('page.slug', 'new-slug');
+        ->assertJsonPath('data.slug', 'new-slug');
 
     $this->assertDatabaseHas('pages', ['id' => $page->id, 'slug' => 'new-slug']);
 });

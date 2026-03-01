@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Category;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 
 class ShowCategoryController
 {
   public function __invoke(Category $category)
   {
-    return response()->json($category);
+    $category->load('page');
+
+    return new CategoryResource($category);
   }
 }

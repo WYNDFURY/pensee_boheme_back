@@ -30,7 +30,7 @@ class UpdateProductController
 
         return response()->json([
             'message' => 'Product updated successfully',
-            'product' => new ProductResource($product),
+            'data' => new ProductResource($product),
         ]);
     }
 }

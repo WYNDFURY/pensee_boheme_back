@@ -9,8 +9,6 @@ class IndexProductController
 {
     public function __invoke()
     {
-        $products = ProductResource::collection(Product::with('category')->get());
-
-        return response()->json($products);
+        return ProductResource::collection(Product::with('category')->get());
     }
 }

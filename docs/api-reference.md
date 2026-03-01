@@ -62,7 +62,7 @@ Single product with media, options, and category.
 ```json
 {
   "message": "Product created successfully",
-  "product": { ProductResource }
+  "data": { ProductResource }
 }
 ```
 
@@ -74,7 +74,7 @@ Same fields as POST (all optional). Use `POST` with `_method=PATCH` for file upl
 ```json
 {
   "message": "Product updated successfully",
-  "product": { ProductResource }
+  "data": { ProductResource }
 }
 ```
 
@@ -104,7 +104,11 @@ Single category with nested products (CategoryResource).
 | order | int | nullable |
 | page_id | int | required, exists:pages |
 
+**Response (201):** `{ "message": "Category created successfully", "data": { CategoryResource } }`
+
 ### PATCH `/categories/{id}` `auth:sanctum`
+
+**Response (200):** `{ "message": "Category updated successfully", "data": { CategoryResource } }`
 
 ### DELETE `/categories/{id}` `auth:sanctum`
 
@@ -126,7 +130,11 @@ Single page with nested categories, each with active products (PageResource).
 |-------|------|-------|
 | slug | string | required, max:255, unique |
 
+**Response (201):** `{ "message": "Page created successfully", "data": { PageResource } }`
+
 ### PATCH `/pages/{slug}` `auth:sanctum`
+
+**Response (200):** `{ "message": "Page updated successfully", "data": { PageResource } }`
 
 ### DELETE `/pages/{slug}` `auth:sanctum`
 
@@ -136,7 +144,7 @@ Single page with nested categories, each with active products (PageResource).
 
 ### GET `/galleries`
 
-Returns published galleries with media. Wrapped in `data` key.
+Returns published galleries with media. No `data` wrapper.
 
 **Special behavior:**
 - `media` limited to **3 items** per gallery (preview)
@@ -165,7 +173,7 @@ Single gallery with **all media** items.
 ```json
 {
   "message": "Gallery created successfully",
-  "gallery": { GalleryResource }
+  "data": { GalleryResource }
 }
 ```
 
@@ -174,6 +182,39 @@ Single gallery with **all media** items.
 Use `POST` with `_method=PATCH` for file uploads. New images are **appended** (existing preserved).
 
 ### DELETE `/galleries/{slug}` `auth:sanctum`
+
+---
+
+## Users
+
+### GET `/users` `auth:sanctum`
+
+Returns all users (no `data` wrapper).
+
+### GET `/users/{id}` `auth:sanctum`
+
+Single user (UserResource).
+
+### POST `/users` `auth:sanctum`
+
+| Field | Type | Rules |
+|-------|------|-------|
+| first_name | string | required, max:255 |
+| last_name | string | required, max:255 |
+| email | string | required, email, unique |
+| password | string | required, min:8 |
+
+**Response (201):** `{ "message": "User created successfully", "data": { UserResource } }`
+
+### PATCH `/users/{id}` `auth:sanctum`
+
+Same fields as POST (all optional).
+
+**Response (200):** `{ "message": "User updated successfully", "data": { UserResource } }`
+
+### DELETE `/users/{id}` `auth:sanctum`
+
+Soft deletes user. **Response (200):** `{ "message": "User deleted" }`
 
 ---
 
@@ -240,7 +281,7 @@ Returns last 12 Instagram media items sorted by timestamp (desc). No auth requir
   price_formatted: string | null  // e.g. "25.00 €" (null if has_price is false)
   is_active: boolean
   has_price: boolean
-  category_id: number
+  category_name: string | null
   media: MediaResource[]
   options?: ProductOptionResource[]  // only if loaded and non-empty
 }
@@ -266,7 +307,7 @@ Returns last 12 Instagram media items sorted by timestamp (desc). No auth requir
   slug: string
   description: string | null
   order: number
-  page_id: number
+  page_slug: string | null
   products?: ProductResource[]  // when loaded
 }
 ```
@@ -316,6 +357,17 @@ Returns last 12 Instagram media items sorted by timestamp (desc). No auth requir
 }
 ```
 
+### UserResource
+
+```typescript
+{
+  id: number
+  first_name: string
+  last_name: string
+  email: string
+}
+```
+
 ### InstagramMediaResource
 
 ```typescript
@@ -333,14 +385,14 @@ Returns last 12 Instagram media items sorted by timestamp (desc). No auth requir
 
 ## Response Wrapping
 
-| Endpoint | Wrapper |
-|----------|---------|
-| GET `/galleries` | `{ "data": [...] }` |
-| GET `/instagram` | `{ "data": [...] }` |
-| GET `/products` | `[...]` (no wrapper) |
-| GET `/categories` | `[...]` (no wrapper) |
-| GET `/pages` | `[...]` (no wrapper) |
-| POST/PATCH store/update | `{ "message": "...", "model": {...} }` |
+All responses are flat — no `data` wrapper on GET endpoints. `JsonResource::withoutWrapping()` is enabled globally.
+
+| Endpoint type | Shape |
+|---------------|-------|
+| GET list (all resources) | `[...]` |
+| GET single (all resources) | `{...}` |
+| POST / PATCH | `{ "message": "...", "data": {...} }` |
+| DELETE | `{ "message": "..." }` |
 
 ---
 

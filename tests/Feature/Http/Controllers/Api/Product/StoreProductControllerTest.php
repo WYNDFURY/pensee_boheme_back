@@ -25,8 +25,8 @@ it('creates a product with valid data', function () {
     ]);
 
     $response->assertCreated()
-        ->assertJsonPath('product.name', 'Peigne Fleur')
-        ->assertJsonPath('product.slug', 'peigne-fleur');
+        ->assertJsonPath('data.name', 'Peigne Fleur')
+        ->assertJsonPath('data.slug', 'peigne-fleur');
 
     $this->assertDatabaseHas('products', ['slug' => 'peigne-fleur']);
 });
@@ -81,9 +81,9 @@ it('creates a product with an image', function () {
     ]);
 
     $response->assertCreated()
-        ->assertJsonPath('product.name', 'Peigne Fleur')
-        ->assertJsonCount(1, 'product.media')
-        ->assertJsonStructure(['product' => ['media' => [['urls' => ['thumb', 'medium', 'large', 'original']]]]]);
+        ->assertJsonPath('data.name', 'Peigne Fleur')
+        ->assertJsonCount(1, 'data.media')
+        ->assertJsonStructure(['data' => ['media' => [['urls' => ['thumb', 'medium', 'large', 'original']]]]]);
 
     $product = Product::where('slug', 'peigne-fleur-image')->first();
     expect($product->getMedia('product_images'))->toHaveCount(1);
@@ -116,7 +116,7 @@ it('creates a product without an image', function () {
         'slug' => 'no-image',
         'category_id' => $category->id,
     ])->assertCreated()
-        ->assertJsonCount(0, 'product.media');
+        ->assertJsonCount(0, 'data.media');
 });
 
 it('rejects non-image file on product creation', function () {

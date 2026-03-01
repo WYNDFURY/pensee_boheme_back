@@ -32,7 +32,7 @@ class UpdateGalleryController
 
     return response()->json([
       'message' => 'Gallery updated successfully',
-      'gallery' => new GalleryResource($gallery),
+      'data' => new GalleryResource($gallery),
     ]);
   }
 }

@@ -10,7 +10,7 @@ it('returns a page by slug', function () {
 
     get("/api/pages/{$page->slug}")
         ->assertOk()
-        ->assertJsonPath('data.slug', $page->slug);
+        ->assertJsonPath('slug', $page->slug);
 });
 
 it('returns page with nested categories and active products', function () {
@@ -22,8 +22,8 @@ it('returns page with nested categories and active products', function () {
     $response = get("/api/pages/{$page->slug}");
 
     $response->assertOk()
-        ->assertJsonCount(1, 'data.categories')
-        ->assertJsonCount(1, 'data.categories.0.products');
+        ->assertJsonCount(1, 'categories')
+        ->assertJsonCount(1, 'categories.0.products');
 });
 
 it('returns 404 for nonexistent slug', function () {

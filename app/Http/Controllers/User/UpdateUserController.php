@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,9 @@ class UpdateUserController
 
     $user->update($validated);
 
-    return response()->json($user);
+    return response()->json([
+      'message' => 'User updated successfully',
+      'data' => new UserResource($user),
+    ]);
   }
 }

@@ -25,6 +25,11 @@ class RefreshLongLivedTokenService
     public function refreshLongLivedToken()
     {
 
+        if(!$this->accessToken) {
+            Log::error('No access token found to refresh.');
+            return null;
+        }
+
         $response = Http::get('https://graph.facebook.com/v22.0/oauth/access_token', [
             'grant_type' => 'fb_exchange_token',
             'client_id' => $this->appId,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Page;
 
+use App\Http\Resources\PageResource;
 use App\Models\Page;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class UpdatePageController
 
         return response()->json([
             'message' => 'Page updated successfully',
-            'page' => $page,
+            'data' => new PageResource($page),
         ]);
     }
 }

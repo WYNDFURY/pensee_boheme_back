@@ -20,8 +20,8 @@ it('creates a gallery with valid data', function () {
     ]);
 
     $response->assertCreated()
-        ->assertJsonPath('gallery.name', 'Bohème Chic')
-        ->assertJsonPath('gallery.slug', 'boheme-chic');
+        ->assertJsonPath('data.name', 'Bohème Chic')
+        ->assertJsonPath('data.slug', 'boheme-chic');
 
     $this->assertDatabaseHas('galleries', ['slug' => 'boheme-chic']);
 });
@@ -55,9 +55,9 @@ it('creates a gallery with multiple images', function () {
     ]);
 
     $response->assertCreated()
-        ->assertJsonPath('gallery.name', 'Wedding Gallery')
-        ->assertJsonCount(3, 'gallery.media')
-        ->assertJsonStructure(['gallery' => ['media' => [['urls' => ['thumb', 'medium', 'large', 'original']]]]]);
+        ->assertJsonPath('data.name', 'Wedding Gallery')
+        ->assertJsonCount(3, 'data.media')
+        ->assertJsonStructure(['data' => ['media' => [['urls' => ['thumb', 'medium', 'large', 'original']]]]]);
 
     $gallery = Gallery::where('slug', 'wedding-gallery')->first();
     expect($gallery->getMedia('gallery_images'))->toHaveCount(3);
@@ -91,7 +91,7 @@ it('creates a gallery without images', function () {
         'name' => 'Empty Gallery',
         'slug' => 'empty-gallery',
     ])->assertCreated()
-        ->assertJsonCount(0, 'gallery.media');
+        ->assertJsonCount(0, 'data.media');
 });
 
 it('rejects more than 20 images', function () {

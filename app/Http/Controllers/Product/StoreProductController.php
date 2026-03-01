@@ -32,7 +32,7 @@ class StoreProductController extends Controller
 
         return response()->json([
             'message' => 'Product created successfully',
-            'product' => new ProductResource($product),
+            'data' => new ProductResource($product),
         ], 201);
     }
 }

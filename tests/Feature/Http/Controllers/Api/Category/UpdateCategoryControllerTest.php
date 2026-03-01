@@ -13,7 +13,7 @@ it('updates a category', function () {
 
     patchJson("/api/categories/{$category->id}", ['name' => 'Updated'])
         ->assertOk()
-        ->assertJsonPath('category.name', 'Updated');
+        ->assertJsonPath('data.name', 'Updated');
 
     $this->assertDatabaseHas('categories', ['id' => $category->id, 'name' => 'Updated']);
 });

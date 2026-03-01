@@ -12,7 +12,7 @@ it('creates a page with valid data', function () {
     $response = postJson('/api/pages', ['slug' => 'new-page']);
 
     $response->assertCreated()
-        ->assertJsonPath('page.slug', 'new-page');
+        ->assertJsonPath('data.slug', 'new-page');
 
     $this->assertDatabaseHas('pages', ['slug' => 'new-page']);
 });
