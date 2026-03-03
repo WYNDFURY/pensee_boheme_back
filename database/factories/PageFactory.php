@@ -11,25 +11,23 @@ use Illuminate\Support\Str;
  */
 class PageFactory extends Factory
 {
-  /**
-   * The name of the factory's corresponding model.
-   *
-   * @var string
-   */
-  protected $model = Page::class;
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Page::class;
 
-  /**
-   * Define the model's default state.
-   *
-   * @return array
-   */
-  public function definition(): array
-  {
-    return [
-      'slug' => Str::slug($this->faker->unique()->words(2, true)),
-      'created_at' => now(),
-      'updated_at' => now(),
-      'deleted_at' => null,
-    ];
-  }
+    /**
+     * Define the model's default state.
+     */
+    public function definition(): array
+    {
+        return [
+            'slug' => Str::slug($this->faker->unique()->words(2, true)),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'deleted_at' => null,
+        ];
+    }
 }

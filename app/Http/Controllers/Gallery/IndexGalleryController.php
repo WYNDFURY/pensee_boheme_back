@@ -9,11 +9,18 @@ class IndexGalleryController
 {
     public function __invoke()
     {
-        $galleries = Gallery::with('media')->get();
+        $query = Gallery::with('media')->orderBy('order', 'asc');
 
-        $galleries = $galleries->sortBy('id', SORT_REGULAR, true)->filter(function ($gallery) {
-            return $gallery->getMedia('gallery_images')->isNotEmpty();
-        })->values();
+        if (! auth('sanctum')->check()) {
+            $query->published();
+        }
+
+        $galleries = $query->get();
+
+        if (! auth('sanctum')->check()) {
+            $galleries = $galleries->filter(fn ($gallery) => $gallery->getMedia('gallery_images')->isNotEmpty()
+            )->values();
+        }
 
         return GalleryResource::collection($galleries);
     }

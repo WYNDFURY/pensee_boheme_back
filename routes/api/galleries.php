@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 // Galleries Routes
 Route::prefix('galleries')->name('galleries.')->group(function () {
     Route::get('/', IndexGalleryController::class)->name('index');
-    Route::get('/{gallery:slug}', ShowGalleryController::class)->name('show');
+    Route::get('/{slug}', ShowGalleryController::class)->name('show');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', StoreGalleryController::class)->name('store');

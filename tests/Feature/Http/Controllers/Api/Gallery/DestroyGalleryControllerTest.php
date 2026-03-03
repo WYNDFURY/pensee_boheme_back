@@ -1,10 +1,11 @@
 <?php
 
-use function Pest\Laravel\delete;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Gallery;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+use function Pest\Laravel\delete;
 
 beforeEach(function () {
     $this->actingAs(User::factory()->create());

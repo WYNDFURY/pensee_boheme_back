@@ -7,10 +7,10 @@ use App\Models\Category;
 
 class ShowCategoryController
 {
-  public function __invoke(Category $category)
-  {
-    $category->load('page');
+    public function __invoke(Category $category)
+    {
+        $category->load('page');
 
-    return new CategoryResource($category);
-  }
+        return new CategoryResource($category);
+    }
 }

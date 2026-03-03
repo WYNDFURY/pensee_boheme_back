@@ -6,10 +6,10 @@ use App\Models\Category;
 
 class DestroyCategoryController
 {
-  public function __invoke(Category $category)
-  {
-    $category->delete();
+    public function __invoke(Category $category)
+    {
+        $category->delete();
 
-    return response()->json(['message' => 'Category deleted'], 200);
-  }
+        return response()->json(['message' => 'Category deleted'], 200);
+    }
 }

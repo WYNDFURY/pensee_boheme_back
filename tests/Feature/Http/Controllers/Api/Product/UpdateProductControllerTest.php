@@ -1,11 +1,12 @@
 <?php
 
-use function Pest\Laravel\patchJson;
-use function Pest\Laravel\postJson;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+use function Pest\Laravel\patchJson;
+use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     $this->actingAs(User::factory()->create());

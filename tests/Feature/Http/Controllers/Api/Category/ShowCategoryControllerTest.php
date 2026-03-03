@@ -1,7 +1,8 @@
 <?php
 
-use function Pest\Laravel\get;
 use App\Models\Category;
+
+use function Pest\Laravel\get;
 
 it('returns a category', function () {
     $category = Category::factory()->create();
@@ -13,5 +14,5 @@ it('returns a category', function () {
 });
 
 it('returns 404 for nonexistent category', function () {
-    get('/api/categories/9999')->assertNotFound();
-});
+get('/api/categories/9999')->assertNotFound();
+    });

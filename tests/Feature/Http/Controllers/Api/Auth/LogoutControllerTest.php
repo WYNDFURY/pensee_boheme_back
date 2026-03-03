@@ -1,8 +1,9 @@
 <?php
 
 use App\Models\User;
-use function Pest\Laravel\postJson;
+
 use function Pest\Laravel\getJson;
+use function Pest\Laravel\postJson;
 
 it('revokes current token', function () {
     $user = User::factory()->create();

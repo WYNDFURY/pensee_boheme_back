@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Page;
 use App\Models\Category;
+use App\Models\Page;
 
 it('has many categories', function () {
     $page = Page::factory()->create();

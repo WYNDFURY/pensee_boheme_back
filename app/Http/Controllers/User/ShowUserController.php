@@ -7,8 +7,8 @@ use App\Models\User;
 
 class ShowUserController
 {
-  public function __invoke(User $user)
-  {
-    return new UserResource($user);
-  }
+    public function __invoke(User $user)
+    {
+        return new UserResource($user);
+    }
 }

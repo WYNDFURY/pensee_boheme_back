@@ -12,3 +12,10 @@ it('casts is_published to boolean', function () {
     $gallery = Gallery::factory()->create(['is_published' => 1]);
     expect($gallery->is_published)->toBeTrue();
 });
+
+it('has published scope that filters by is_published', function () {
+    Gallery::factory()->create(['is_published' => true]);
+    Gallery::factory()->create(['is_published' => false]);
+
+    expect(Gallery::published()->count())->toBe(1);
+});

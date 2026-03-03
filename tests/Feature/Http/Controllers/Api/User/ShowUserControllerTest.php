@@ -1,7 +1,8 @@
 <?php
 
-use function Pest\Laravel\get;
 use App\Models\User;
+
+use function Pest\Laravel\get;
 
 it('returns a user', function () {
     $user = User::factory()->create();
@@ -15,5 +16,5 @@ it('returns a user', function () {
 });
 
 it('returns 404 for nonexistent user', function () {
-    get('/api/users/9999')->assertNotFound();
-});
+get('/api/users/9999')->assertNotFound();
+    });

@@ -7,8 +7,8 @@ use App\Models\User;
 
 class IndexUserController
 {
-  public function __invoke()
-  {
-    return UserResource::collection(User::all());
-  }
+    public function __invoke()
+    {
+        return UserResource::collection(User::all());
+    }
 }

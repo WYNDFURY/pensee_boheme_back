@@ -1,7 +1,8 @@
 <?php
 
-use function Pest\Laravel\get;
 use App\Models\User;
+
+use function Pest\Laravel\get;
 
 it('returns all users', function () {
     User::factory()->count(3)->create();
@@ -9,5 +10,5 @@ it('returns all users', function () {
 });
 
 it('returns empty array when no users exist', function () {
-    get('/api/users')->assertOk()->assertJsonCount(0);
-});
+get('/api/users')->assertOk()->assertJsonCount(0);
+    });

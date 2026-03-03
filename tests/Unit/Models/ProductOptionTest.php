@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\ProductOption;
 use App\Models\Product;
+use App\Models\ProductOption;
 
 it('belongs to a product', function () {
     $option = ProductOption::factory()->create();

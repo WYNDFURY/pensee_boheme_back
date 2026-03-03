@@ -9,6 +9,12 @@ class IndexProductController
 {
     public function __invoke()
     {
-        return ProductResource::collection(Product::with('category')->get());
+        $query = Product::with('category');
+
+        if (! auth('sanctum')->check()) {
+            $query->active();
+        }
+
+        return ProductResource::collection($query->get());
     }
 }

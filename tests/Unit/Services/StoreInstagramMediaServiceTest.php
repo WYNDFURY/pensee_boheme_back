@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\InstagramMedia;
 use App\Services\StoreInstagramMedias\StoreInstagramMediaService;
 
 it('creates instagram media records', function () {

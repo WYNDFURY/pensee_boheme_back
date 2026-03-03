@@ -7,8 +7,8 @@ use App\Models\Category;
 
 class IndexCategoryController
 {
-  public function __invoke()
-  {
-    return CategoryResource::collection(Category::all());
-  }
+    public function __invoke()
+    {
+        return CategoryResource::collection(Category::all());
+    }
 }

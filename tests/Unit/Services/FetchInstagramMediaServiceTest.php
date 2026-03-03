@@ -39,7 +39,7 @@ it('returns max 12 results', function () {
         'media_type' => 'IMAGE',
         'media_url' => "https://example.com/$i.jpg",
         'permalink' => "https://ig.com/$i",
-        'timestamp' => "2025-01-01T00:00:00+0000",
+        'timestamp' => '2025-01-01T00:00:00+0000',
     ])->all();
 
     Http::fake([

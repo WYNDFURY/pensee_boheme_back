@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Mail;
-use function Pest\Laravel\postJson;
+
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\get;
+use function Pest\Laravel\postJson;
 
 it('rejects unauthenticated product creation', function () {
     postJson('/api/products', ['name' => 'Test'])->assertUnauthorized();
@@ -26,8 +27,8 @@ it('rejects unauthenticated user creation', function () {
 });
 
 it('allows public product listing', function () {
-    get('/api/products')->assertOk();
-});
+get('/api/products')->assertOk();
+    });
 
 it('allows public contact form submission', function () {
     Mail::fake();

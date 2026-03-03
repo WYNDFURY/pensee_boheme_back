@@ -1,13 +1,28 @@
 <?php
 
-use function Pest\Laravel\get;
 use App\Models\Product;
+use App\Models\User;
 
-it('returns all products', function () {
-    Product::factory()->count(3)->create();
-    get('/api/products')->assertOk()->assertJsonCount(3);
+use function Pest\Laravel\get;
+
+it('returns only active products for unauthenticated users', function () {
+    Product::factory()->create(['is_active' => true]);
+    Product::factory()->create(['is_active' => false]);
+
+    get('/api/products')->assertOk()->assertJsonCount(1);
 });
 
-it('returns empty array when none exist', function () {
+it('returns all products for authenticated users', function () {
+    $this->actingAs(User::factory()->create());
+
+    Product::factory()->create(['is_active' => true]);
+    Product::factory()->create(['is_active' => false]);
+
+    get('/api/products')->assertOk()->assertJsonCount(2);
+});
+
+it('returns empty array when no active products exist', function () {
+    Product::factory()->create(['is_active' => false]);
+
     get('/api/products')->assertOk()->assertJsonCount(0);
 });

@@ -1,8 +1,9 @@
 <?php
 
-use function Pest\Laravel\postJson;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
+use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     $this->actingAs(User::factory()->create());

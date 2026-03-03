@@ -33,13 +33,21 @@
 
 ### GET `/products`
 
-Returns all products. No auth required.
+Returns products. No auth required.
+
+**Visibility filtering:**
+- **Unauthenticated:** only products with `is_active = true`
+- **Authenticated (Bearer token):** all products including inactive
 
 **Response:** Array of ProductResource (no `data` wrapper)
 
 ### GET `/products/{id}`
 
 Single product with media, options, and category.
+
+**Visibility filtering:**
+- **Unauthenticated:** returns 404 if `is_active = false`
+- **Authenticated (Bearer token):** returns any product regardless of `is_active`
 
 **Response:** Single ProductResource
 
@@ -116,13 +124,13 @@ Single category with nested products (CategoryResource).
 
 ## Pages
 
-### GET `/pages`
-
-Returns all pages. No `data` wrapper.
-
 ### GET `/pages/{slug}`
 
-Single page with nested categories, each with active products (PageResource).
+Single page with nested categories and products (PageResource).
+
+**Visibility filtering on nested products:**
+- **Unauthenticated:** only products with `is_active = true` within each category
+- **Authenticated (Bearer token):** all products including inactive
 
 ### POST `/pages` `auth:sanctum`
 
@@ -144,16 +152,23 @@ Single page with nested categories, each with active products (PageResource).
 
 ### GET `/galleries`
 
-Returns published galleries with media. No `data` wrapper.
+Returns galleries sorted by `order` ascending. No `data` wrapper.
+
+**Visibility filtering:**
+- **Unauthenticated:** only galleries with `is_published = true` and at least one media item
+- **Authenticated (Bearer token):** all galleries including unpublished and empty
 
 **Special behavior:**
 - `media` limited to **3 items** per gallery (preview)
 - `images_count` shows **total** count
-- Galleries without media are excluded
 
 ### GET `/galleries/{slug}`
 
 Single gallery with **all media** items.
+
+**Visibility filtering:**
+- **Unauthenticated:** returns 404 if `is_published = false`
+- **Authenticated (Bearer token):** returns any gallery regardless of `is_published`
 
 ### POST `/galleries` `auth:sanctum`
 
@@ -166,7 +181,7 @@ Single gallery with **all media** items.
 | description | string | nullable |
 | photographer | string | nullable |
 | is_published | boolean | optional |
-| order | int | optional |
+| order | int | optional, auto-increments if omitted |
 | images[] | file[] | nullable, max 20, each: image, mimes:jpeg,png,webp,gif, max:10MB |
 
 **Response (201):**

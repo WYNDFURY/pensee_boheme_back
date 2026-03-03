@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+
 use function Pest\Laravel\postJson;
 
 it('returns token with valid credentials', function () {
@@ -51,7 +52,7 @@ it('rate limits login attempts', function () {
         'password' => bcrypt('secret123'),
     ]);
 
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 10; $i++) {
         postJson('/api/login', [
             'email' => $user->email,
             'password' => 'wrong',

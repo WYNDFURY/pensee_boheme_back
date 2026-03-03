@@ -32,12 +32,12 @@ class FetchInstagramMediaService
         Log::info('Fetching Instagram media...');
 
         $response = Http::timeout(30)
-        ->retry(3, 2000)
-        ->get("https://graph.facebook.com/v22.0/{$this->instagramAccountId}/media", [
-            'fields' => 'id,caption,media_type,media_url,permalink,timestamp',
-            'limit' => 20,
-            'access_token' => $this->accessToken,
-        ]);
+            ->retry(3, 2000)
+            ->get("https://graph.facebook.com/v22.0/{$this->instagramAccountId}/media", [
+                'fields' => 'id,caption,media_type,media_url,permalink,timestamp',
+                'limit' => 20,
+                'access_token' => $this->accessToken,
+            ]);
 
         $allMedias = $response->json('data', []);
         $filteredMedias = Arr::where($allMedias, function ($media) {

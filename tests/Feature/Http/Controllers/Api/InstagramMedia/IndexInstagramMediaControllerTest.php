@@ -1,7 +1,8 @@
 <?php
 
-use function Pest\Laravel\get;
 use App\Models\InstagramMedia;
+
+use function Pest\Laravel\get;
 
 it('returns at most 12 media sorted by timestamp desc', function () {
     for ($i = 1; $i <= 15; $i++) {
@@ -23,5 +24,5 @@ it('returns at most 12 media sorted by timestamp desc', function () {
 });
 
 it('returns empty array when no media exists', function () {
-    get('/api/instagram')->assertOk()->assertJsonCount(0);
-});
+get('/api/instagram')->assertOk()->assertJsonCount(0);
+    });

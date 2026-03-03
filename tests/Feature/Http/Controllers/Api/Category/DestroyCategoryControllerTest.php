@@ -1,8 +1,9 @@
 <?php
 
-use function Pest\Laravel\delete;
 use App\Models\Category;
 use App\Models\User;
+
+use function Pest\Laravel\delete;
 
 beforeEach(function () {
     $this->actingAs(User::factory()->create());

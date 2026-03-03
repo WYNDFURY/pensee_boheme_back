@@ -1,7 +1,8 @@
 <?php
 
-use function Pest\Laravel\get;
 use App\Models\Category;
+
+use function Pest\Laravel\get;
 
 it('returns all categories', function () {
     Category::factory()->count(3)->create();
@@ -9,5 +10,5 @@ it('returns all categories', function () {
 });
 
 it('returns empty array when none exist', function () {
-    get('/api/categories')->assertOk()->assertJsonCount(0);
-});
+get('/api/categories')->assertOk()->assertJsonCount(0);
+    });

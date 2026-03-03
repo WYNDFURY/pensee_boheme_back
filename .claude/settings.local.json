@@ -3,7 +3,8 @@
     "allow": [
       "Bash(php artisan test:*)",
       "Bash(php artisan migrate:fresh:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(./vendor/bin/pint)"
     ]
   }
 }

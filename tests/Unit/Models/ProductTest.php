@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\ProductOption;
 
 it('belongs to a category', function () {
@@ -25,4 +25,11 @@ it('casts is_active and has_price to boolean', function () {
     $product = Product::factory()->create(['is_active' => 1, 'has_price' => 0]);
     expect($product->is_active)->toBeTrue()
         ->and($product->has_price)->toBeFalse();
+});
+
+it('has active scope that filters by is_active', function () {
+    Product::factory()->create(['is_active' => true]);
+    Product::factory()->create(['is_active' => false]);
+
+    expect(Product::active()->count())->toBe(1);
 });

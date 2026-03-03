@@ -1,10 +1,11 @@
 <?php
 
-use function Pest\Laravel\postJson;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Gallery;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     $this->actingAs(User::factory()->create());
@@ -118,4 +119,28 @@ it('rejects non-image file in batch', function () {
         ],
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['images.1']);
+});
+
+it('auto-increments order when not provided', function () {
+    Gallery::factory()->create(['order' => 5]);
+
+    postJson('/api/galleries', [
+        'name' => 'New Gallery',
+        'slug' => 'new-gallery',
+    ])->assertCreated()->assertJsonPath('data.order', 6);
+});
+
+it('uses provided order value when given', function () {
+    postJson('/api/galleries', [
+        'name' => 'Custom Order',
+        'slug' => 'custom-order',
+        'order' => 42,
+    ])->assertCreated()->assertJsonPath('data.order', 42);
+});
+
+it('assigns order 0 when no galleries exist and order not provided', function () {
+    postJson('/api/galleries', [
+        'name' => 'First Gallery',
+        'slug' => 'first-gallery',
+    ])->assertCreated()->assertJsonPath('data.order', 0);
 });

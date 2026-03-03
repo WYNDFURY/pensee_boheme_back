@@ -6,10 +6,10 @@ use App\Models\User;
 
 class DestroyUserController
 {
-  public function __invoke(User $user)
-  {
-    $user->delete();
+    public function __invoke(User $user)
+    {
+        $user->delete();
 
-    return response()->json(['message' => 'User deleted'], 200);
-  }
+        return response()->json(['message' => 'User deleted'], 200);
+    }
 }

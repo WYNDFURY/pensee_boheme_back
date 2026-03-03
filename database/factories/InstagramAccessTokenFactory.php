@@ -12,7 +12,7 @@ class InstagramAccessTokenFactory extends Factory
     public function definition(): array
     {
         return [
-            'access_token' => encrypt('fake-access-token-' . $this->faker->uuid()),
+            'access_token' => encrypt('fake-access-token-'.$this->faker->uuid()),
             'expires_at' => now()->addMonths(3),
         ];
     }

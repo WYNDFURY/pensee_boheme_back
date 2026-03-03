@@ -25,8 +25,9 @@ class RefreshLongLivedTokenService
     public function refreshLongLivedToken()
     {
 
-        if(!$this->accessToken) {
+        if (! $this->accessToken) {
             Log::error('No access token found to refresh.');
+
             return null;
         }
 

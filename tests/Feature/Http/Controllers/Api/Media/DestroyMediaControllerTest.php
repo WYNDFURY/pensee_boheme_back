@@ -1,10 +1,11 @@
 <?php
 
-use function Pest\Laravel\deleteJson;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+use function Pest\Laravel\deleteJson;
 
 beforeEach(function () {
     $this->actingAs(User::factory()->create());

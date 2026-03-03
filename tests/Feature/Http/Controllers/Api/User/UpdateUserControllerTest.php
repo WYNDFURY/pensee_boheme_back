@@ -1,8 +1,9 @@
 <?php
 
-use function Pest\Laravel\patchJson;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
+use function Pest\Laravel\patchJson;
 
 beforeEach(function () {
     $this->actingAs(User::factory()->create());
