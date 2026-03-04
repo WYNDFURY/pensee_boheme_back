@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Page\DestroyPageController;
+use App\Http\Controllers\Page\IndexPageController;
 use App\Http\Controllers\Page\ShowPageController;
 use App\Http\Controllers\Page\StorePageController;
 use App\Http\Controllers\Page\UpdatePageController;
@@ -8,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 // Pages Routes
 Route::prefix('pages')->name('pages.')->group(function () {
+    Route::get('/', IndexPageController::class)->name('index');
     Route::get('/{page:slug}', ShowPageController::class)->name('show');
 
     Route::middleware('auth:sanctum')->group(function () {

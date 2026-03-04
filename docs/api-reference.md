@@ -124,6 +124,10 @@ Single category with nested products (CategoryResource).
 
 ## Pages
 
+### GET `/pages`
+
+Returns all pages. No `data` wrapper.
+
 ### GET `/pages/{slug}`
 
 Single page with nested categories and products (PageResource).
